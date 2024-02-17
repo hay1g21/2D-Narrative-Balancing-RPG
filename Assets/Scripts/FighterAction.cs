@@ -5,7 +5,9 @@ using UnityEngine;
 public class FighterAction : MonoBehaviour
 {
     // Start is called before the first frame update
+    [SerializeField]
     private GameObject enemy;
+    [SerializeField]
     private GameObject player;
 
     [SerializeField]
@@ -19,7 +21,11 @@ public class FighterAction : MonoBehaviour
 
     private GameObject currentAttack;
 
-
+    public void setAttacks(GameObject a1, GameObject a2)
+    {
+        meleePrefab = a1;
+        magicPrefab = a2;
+    }
     public void SelectAttack(string btn)
     {
         GameObject victim = player;
@@ -46,11 +52,12 @@ public class FighterAction : MonoBehaviour
             GameObject.Find("GameControllerObject").GetComponent<GameController>().switchAttack();
         }
     }
-    void Awake()
+    void Start()
     {
         //get player and enemt
+        Debug.Log("bruh");
         player = GameObject.FindGameObjectWithTag("Player");
-        enemy = GameObject.FindGameObjectWithTag("Enemy");
+        enemy = GameObject.Find("CurrentEnemy");
     }
 
     // Update is called once per frame

@@ -36,14 +36,19 @@ public class AttackScript : MonoBehaviour
        // magicScale = GameObject.Find("HeroMagicFill").GetComponent<RectTransform>().localScale;
     }
 
+    //for setup
+    public void setOwner()
+    {
+        owner = this.gameObject.transform.parent.gameObject;
+    }
     public void Attack(GameObject victim)
     {
         //get stats of both enemies
-       attackerStats = owner.GetComponent<FighterStats>();
-       targetStats = victim.GetComponent<FighterStats>();
+        attackerStats = owner.GetComponent<FighterStats>();
+        targetStats = victim.GetComponent<FighterStats>();
         Debug.Log(victim.name + " is being attacked");
        
-        if(attackerStats.magic >= magicCost) //if they have sufficient magic points allow spell
+        if(attackerStats.magic >= magicCost) //if they have sufficient magic points allow spell - Melee costs 0 so is all good
         {
             float multiplier = Random.Range(minAttackMult, maxAttackMult);
         
@@ -58,16 +63,21 @@ public class AttackScript : MonoBehaviour
             damage = Mathf.Max(0, damage - (defenseMultiplier * targetStats.defense));
             Debug.Log("Damage done to target: " + damage);
             //owner.GetComponent<Animator>().Play(animationName); for animation
-            targetStats.ReceiveDamage(Mathf.CeilToInt(damage));
             attackerStats.updateMagicFill(magicCost);
+            targetStats.ReceiveDamage(Mathf.CeilToInt(damage));
         }else if (owner.tag.Equals("Enemy"))
         {
             //Enemy done goofed and did magic attack
+            Debug.Log("Enemy ran out of magic lol magic left = " + attackerStats.magic);
             Invoke("SkipTurnContinueGame", 2);
         }else if (owner.tag.Equals("Player"))
         {
             //reset choice
             GameObject.Find("GameControllerObject").GetComponent<GameController>().switchAttack();
+        }
+        else
+        {
+            
         }
        
     }

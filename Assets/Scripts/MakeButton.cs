@@ -50,6 +50,14 @@ public class MakeButton : MonoBehaviour
             }
            
         }
+        else if (btn.Equals("exitBtn"))
+        {
+            GameManager.instance.toOverworld(GameManager.instance.prevScene);
+        }
+        else if (btn.Equals("Escape"))
+        {
+            GameManager.instance.toOverworld(GameManager.instance.prevScene);
+        }
         else
         {
             if (GameControllerObj.GetComponent<GameController>().getAttack())

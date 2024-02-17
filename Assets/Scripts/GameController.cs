@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour
 
     // Start is called before the first frame update
 
-    private List<FighterStats> fighterStats; //list of fighters
+    public List<FighterStats> fighterStats; //list of fighters
 
     [SerializeField]
     private GameObject battleMenu; //option menu to make player attack
@@ -16,7 +16,8 @@ public class GameController : MonoBehaviour
     private bool canAttack; //
 
     public Text battleText;
-    void Start()
+    //starts the battle having loaded everything in
+    public void StartBattle()
     {
         fighterStats = new List<FighterStats>();
 
@@ -25,7 +26,7 @@ public class GameController : MonoBehaviour
         currentFighterStats.CalculateNextTurn(0); //fighterstats calcs turn with speed
         fighterStats.Add(currentFighterStats);
 
-        GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
+        GameObject enemy = GameObject.Find("CurrentEnemy");
         FighterStats currentEnemyStats = enemy.GetComponent<FighterStats>();
         currentEnemyStats.CalculateNextTurn(0);
         fighterStats.Add(currentEnemyStats);
@@ -42,7 +43,12 @@ public class GameController : MonoBehaviour
     {
         
     }
-
+    //when next turn is not called because the enemy died
+    public void cleanUP()
+    {
+        Debug.Log("Do something mate");
+        battleText.gameObject.SetActive(false);
+    }
     public void NextTurn()
     {
         battleText.gameObject.SetActive(false);
@@ -66,6 +72,13 @@ public class GameController : MonoBehaviour
             {
                 this.battleMenu.SetActive(false);
                 string attackType = Random.Range(0, 2) == 1 ? "melee" : "magic";
+                if (attackType.Equals("melee"))
+                {
+                    Debug.Log("Enemy chooses melee attack");
+                }else if (attackType.Equals("magic"))
+                {
+                    Debug.Log("Enemy chooses magic attack");
+                }
                 currentUnit.GetComponent<FighterAction>().SelectAttack(attackType);
             }
         }
