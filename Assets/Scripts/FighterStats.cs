@@ -125,8 +125,7 @@ public class FighterStats : MonoBehaviour, IComparable
         health = health - damage;
         //animator.Play("Damage");
 
-        //Set damage text
-
+        
         if(health <= 0)
         {
             dead = true;
@@ -160,7 +159,14 @@ public class FighterStats : MonoBehaviour, IComparable
        if(health != 0)
         {
             GameControllerObj.GetComponent<GameController>().battleText.gameObject.SetActive(true);
-            GameControllerObj.GetComponent<GameController>().battleText.text = damage.ToString();
+            if (tag.Equals("Player"))
+            {
+                GameControllerObj.GetComponent<GameController>().battleText.text = damage.ToString() + " Damage Taken";
+            }else if (tag.Equals("Enemy"))
+            {
+                GameControllerObj.GetComponent<GameController>().battleText.text = damage.ToString() + " Damage Dealt";
+            }
+            
         }
        
         if (damage <= 0)

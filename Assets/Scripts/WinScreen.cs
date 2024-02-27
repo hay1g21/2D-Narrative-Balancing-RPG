@@ -35,9 +35,9 @@ public class WinScreen : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("PrintOnEnable: script was enabled");
-        Debug.Log(GameManager.instance);
-        if (GameManager.instance.battleState.Equals("VICTORY"))
+        //Debug.Log("PrintOnEnable: script was enabled");
+        
+        if (GameManager.instance.gameState.Equals("VICTORY"))
         {
             setRewards();
         }
@@ -45,7 +45,7 @@ public class WinScreen : MonoBehaviour
     }
     private void OnDisable()
     {
-        Debug.Log("PrintOnEnable: script was disbaled");
+        //Debug.Log("PrintOnEnable: script was disbaled");
     }
 
 

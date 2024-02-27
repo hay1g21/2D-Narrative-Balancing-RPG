@@ -381,12 +381,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneType: combat
-  battleState: IN_PROGRESS
+  gameState: BEGIN
   enemyData: {fileID: 0}
   winScreen: {fileID: 0}
   prevScene: 0
   enemiesdefeated: []
   player: {fileID: 0}
+  lastPos: {x: 0, y: 0, z: 0}
   gold: 0
   exp: 0
   enemies: []
@@ -911,8 +912,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: ed663f207e96c984a85db17d33df0240, type: 3}
-    m_FontSize: 100
+    m_Font: {fileID: 12800000, guid: 8560a5668480eb745a551ce4209b4b7e, type: 3}
+    m_FontSize: 80
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -2442,6 +2443,10 @@ MonoBehaviour:
   meleePrefab: {fileID: 1220243602}
   magicPrefab: {fileID: 204903467}
   spriteRen: {fileID: 1079998310}
+  player: {fileID: 0}
+  chaseSpeed: 0
+  distance: 0
+  aggroRange: 0
 --- !u!61 &1079998309
 BoxCollider2D:
   m_ObjectHideFlags: 0

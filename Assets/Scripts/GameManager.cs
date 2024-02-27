@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance; //static allows access from anywhere in code, even from other scripts
     public string sceneType; //ref to scene type
 
-    public string battleState = "IN_PROGRESS";
+    public string gameState = "BEGIN";
 
     public GameObject enemyData;
 
@@ -21,7 +21,16 @@ public class GameManager : MonoBehaviour
 
     public int prevScene;
 
-    
+    public static string BEGIN_STATE = "BEGIN";
+    public static string OVERWORLD_STATE = "OVERWORLD";
+    public static string VICTORY_STATE = "VICTORY";
+    public static string IN_PROGRESS_STATE = "IN_PROGRESS";
+
+    //####-GAME EVENTS -####//
+
+    public GameEvents gameEvents;
+
+
 
     public List<string> enemiesdefeated = new List<string>();
 
@@ -41,6 +50,11 @@ public class GameManager : MonoBehaviour
         //everytime its fired thr += makes fire every func inside event (inthiscase loadstate and some others)
         //SceneManager.sceneLoaded += loadState; //runs once at start
         SceneManager.sceneLoaded += onSceneLoaded; //runs every scene
+
+
+        //initialise events
+        gameEvents = new GameEvents();
+
         DontDestroyOnLoad(gameObject);
         //tileMap.SetActive(false);
     }
@@ -85,9 +99,28 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if(lastPos != null)
+        //delete items collected
+        GameObject itemFolder = GameObject.Find("ItemFolder");
+        //Debug.Log(itemFolder);
+        if (InventoryManager.instance.itemIds != null)
+           
         {
-            player = GameObject.Find("Player");
+            foreach (Transform item in itemFolder.transform)
+            {
+                if (InventoryManager.instance.itemIds.Contains(item.gameObject.GetComponent<Item>().id))
+                {
+                    Destroy(item.gameObject);
+                }
+            }
+        }
+        
+
+
+        player = GameObject.Find("Player");
+        if (lastPos != null && gameState.Equals(VICTORY_STATE))
+        {
+            //Debug.Log("WHAT ARE YOU SAYING");
+            
             //move player back to where they were
             player.transform.position = lastPos;
             if(pStats != null)
@@ -96,19 +129,39 @@ public class GameManager : MonoBehaviour
                 player.GetComponent<OverworldPlayer>().editVal("Magic", pStats["Magic"]);
             }
 
-            pStats = player.GetComponent<OverworldPlayer>().playerStats;
+           
+        //starting from screen e.g debugging
+        }else if (gameState.Equals("BEGIN"))
+        {
+            //Debug.Log("OI");
+            player.transform.position = GameObject.Find("SpawnPoints/Start").transform.position;
+        //travelling between states
+        }else if (gameState.Equals(OVERWORLD_STATE))
+        {
+            //find previous gate and match to spawn
+            Debug.Log("Prev scene: " + prevScene);
+            string search = "SpawnPoints/" + prevScene;
 
+            Transform thing = GameObject.Find(search).transform;
+            player.transform.position = thing.position;
+            if (pStats != null)
+            {
+                player.GetComponent<OverworldPlayer>().editVal("Health", pStats["Health"]);
+                player.GetComponent<OverworldPlayer>().editVal("Magic", pStats["Magic"]);
+            }
         }
+        pStats = player.GetComponent<OverworldPlayer>().playerStats;
         updateGold();
         updateExp();
         updateMagic();
         updateHealth();
+        gameState = OVERWORLD_STATE;
     }
 
     public void loadCombat()
     {
         //move player
-        GameObject player = GameObject.Find("Player");
+        player = GameObject.Find("Player");
         player.transform.position = GameObject.Find("PlayerPos").transform.position;
 
         //add player data
@@ -119,6 +172,7 @@ public class GameManager : MonoBehaviour
 
         }
         enemyData = GameObject.Find("Data");
+        //enemyData.transform.position = new Vector3(50,50,enemyData.transform.position.z);
         Debug.Log("Load Combat");
         //get the enemy info and create the...enemy
         GameObject template = GameObject.Find("Enemies/Enemy");
@@ -167,6 +221,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Done loading mate");
 
         //now start the battle
+        gameState = IN_PROGRESS_STATE; //set to battle in prog
         GameObject.Find("GameControllerObject").GetComponent<GameController>().StartBattle();
 
 
@@ -176,7 +231,7 @@ public class GameManager : MonoBehaviour
     public void winCombat()
     {
         Debug.Log("Battle won");
-        battleState = "VICTORY";
+        gameState = "VICTORY";
         //add enemy to be dead
         enemiesdefeated.Add(enemyData.GetComponent<OverworldEnemy>().getId());
         gold = gold +enemyData.GetComponent<OverworldEnemy>().getGold();
@@ -199,7 +254,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(enemyData);
         }
-        
+        prevScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(sceneNum);
     }
 
@@ -214,13 +269,59 @@ public class GameManager : MonoBehaviour
         prevScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(2);
         //enemyData = data;
-        enemyData = Instantiate(data);
+        //data.GetComponent<OverworldEnemy>().shouldChase = false;
+        Vector3 Epos = new Vector3(50, 50, data.transform.position.z);
+        enemyData = Instantiate(data, Epos, Quaternion.identity );
         enemyData.name = "Data";
         DontDestroyOnLoad(enemyData);
         
     }
 
-    
+    //for overworld only atm
+    public void changeHealth(int amount)
+    {
+        //change player stat and pstat then update text
+        //if over the max just change
+        if((pStats["Health"] + amount) >= pStats["MaxHealth"])
+        {
+            amount = (int)pStats["MaxHealth"] - (int)pStats["Health"];
+            Debug.Log("Adding" + amount);
+        }
+        
+        player.GetComponent<OverworldPlayer>().editVal("Health", pStats["Health"] + amount);
+        //pStats["Health"] += amount;
+        
+        updateHealth();
+        
+    }
+
+    public void changeMagic(int amount)
+    {
+        //change player stat and pstat then update text
+      
+        //if over the max just change
+        if ((pStats["Magic"] + amount) >= pStats["MaxMagic"])
+        {
+            amount = (int)pStats["MaxMagic"] - (int)pStats["Magic"];
+            Debug.Log("Adding" + amount);
+        }
+
+        if (gameState.Equals(IN_PROGRESS_STATE))
+        {
+            //pStats["Health"] = player.GetComponent<FighterStats>().health;
+            player.GetComponent<FighterStats>().magic = player.GetComponent<FighterStats>().magic+amount;
+            pStats["Magic"] = player.GetComponent<FighterStats>().magic + amount;
+        }
+        else
+        {
+            player.GetComponent<OverworldPlayer>().editVal("Magic", pStats["Magic"] + amount);
+        }
+       
+        //pStats["Health"] += amount;
+        updateMagic();
+        Debug.Log("Work");
+
+    }
 
     public int getGold()
     {
@@ -254,9 +355,16 @@ public class GameManager : MonoBehaviour
 
     public void updateMagic()
     {
-        Text expCounter = GameObject.Find("HeadsUpCanvas/MainPanel/MagicLabel/Count").GetComponent<Text>();
-        expCounter.text = pStats["Magic"] + "/" + pStats["MaxMagic"];
-
+        if (gameState.Equals(IN_PROGRESS_STATE))
+        {
+            Text expCounter = GameObject.Find("HeadsUpCanvas/HeroInfo/MagicLabel").GetComponent<Text>();
+            expCounter.text = pStats["Magic"] + "/" + pStats["MaxMagic"];
+        }
+        else
+        {
+            Text expCounter = GameObject.Find("HeadsUpCanvas/MainPanel/MagicLabel/Count").GetComponent<Text>();
+            expCounter.text = pStats["Magic"] + "/" + pStats["MaxMagic"];
+        }
     }
 
 }

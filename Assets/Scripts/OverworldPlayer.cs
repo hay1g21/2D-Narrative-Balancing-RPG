@@ -78,6 +78,7 @@ public class OverworldPlayer : MonoBehaviour
         if(collision.gameObject.tag == "Enemy")
         {
             GameManager.instance.toCombat(collision.gameObject);
+           
 
 
 

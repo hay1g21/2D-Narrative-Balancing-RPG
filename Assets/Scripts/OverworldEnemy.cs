@@ -24,20 +24,44 @@ public class OverworldEnemy : MonoBehaviour
     public GameObject magicPrefab;
 
     public SpriteRenderer spriteRen;
-  
+
+    //for chasing ai
+    public GameObject player;
+    public float chaseSpeed;
+    public float distance; //how far before chase is triggered
+    public float aggroRange;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+       
+        player = GameObject.Find("Player");
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (player != null)
+        {
+            //ai movement
+            distance = Vector2.Distance(transform.position, player.transform.position);
+            Vector2 direction = player.transform.position - transform.position; //find diff
+            direction.Normalize();
+           
+
+            if(distance < aggroRange)
+            {
+                transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, chaseSpeed * Time.deltaTime);
+            }
+            else
+            {
+                //maybe make them go back to original spot
+            }
+        }
     }
+        
 
     public string getName()
     {
