@@ -9,11 +9,54 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
 
     public List<FighterStats> fighterStats; //list of fighters
+    public static GameController instance; //static allows access from anywhere in code, even from other scripts
+
+    public void OnEnable()
+    {
+        //subscribe to events
+        GameManager.instance.gameEvents.onItemUsed += useItem;
+        
+    }
+
+    private void OnDisable()
+    {
+        //unsub
+        GameManager.instance.gameEvents.onItemUsed-= useItem;
+      
+    }
+    public void Awake()
+    {
+        if (GameController.instance != null)
+        {
+            //can destroy other objs here if they dupe
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this; //assigns itself to gamemanager object in the scene
+      
+    }
+
+    //use item, change the fact you used it as a turn, deac menu. So on.
+    public void useItem()
+    {
+        GameController.instance.switchAttack();
+        Debug.Log("USE ITEM");
+        InventoryManager.instance.forceClosed();
+        Invoke("NextTurn", 2);
+    }
+
+    public void itemDamage(int damage)
+    {
+        //find enemy and damage it
+        GameObject enemy = GameObject.Find("CurrentEnemy");
+        enemy.GetComponent<FighterStats>().ReceiveDamage(damage);
+    }
 
     [SerializeField]
     private GameObject battleMenu; //option menu to make player attack
 
-    private bool canAttack; //
+    public bool canAttack; //
 
     public Text battleText;
     //starts the battle having loaded everything in
@@ -67,6 +110,8 @@ public class GameController : MonoBehaviour
             {
                 this.battleMenu.SetActive(true);
                 canAttack = true;
+                //inventory manager, allow menu to be openeded
+
             }
             else
             {

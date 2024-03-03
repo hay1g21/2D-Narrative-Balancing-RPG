@@ -29,6 +29,16 @@ public class ItemSO : ScriptableObject
          
             GameManager.instance.changeMagic(amountToChangeStat);
         }
+        if(statToChange == StatToChange.damage)
+        {
+            //deal some damage
+            if (GameManager.instance.gameState.Equals(GameManager.IN_PROGRESS_STATE))
+            {
+                //GameManager.instance.itemDamage(amountToChangeStat);
+                Debug.Log("USE IT");
+                GameController.instance.itemDamage(amountToChangeStat);
+            }
+        }
     }
 
     public enum StatToChange

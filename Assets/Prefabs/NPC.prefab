@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9047882970304822495}
   - component: {fileID: 9047882970304822494}
   m_Layer: 0
-  m_Name: Karlach
+  m_Name: NPC
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

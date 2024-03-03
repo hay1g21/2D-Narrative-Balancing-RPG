@@ -9,6 +9,7 @@ public class FighterStats : MonoBehaviour, IComparable
     private Animator animator;
     [SerializeField]
     private GameObject healthFill;
+
     [SerializeField]
     private GameObject magicFill;
 
@@ -193,6 +194,22 @@ public class FighterStats : MonoBehaviour, IComparable
             updateMagicCount();
 
         }
+    }
+
+    //for game manager use
+    public void updateMagicFill()
+    {
+        xNewMagicScale = magicScale.x * (magic / startMagic);
+        magicFill.transform.localScale = new Vector2(xNewMagicScale, magicScale.y);
+        //updateMagicCount();
+    }
+
+    public void updateHealthFill()
+    {
+        xNewHealthScale = healthScale.x * (health / startHealth); //updates ratio of health bar
+                                                                  //Debug.Log("Health scale now " + xNewHealthScale);
+        healthFill.transform.localScale = new Vector2(xNewHealthScale, healthScale.y);
+        //updateMagicCount();
     }
 
     void ContinueGame()

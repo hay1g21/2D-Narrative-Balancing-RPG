@@ -18,6 +18,5 @@ MonoBehaviour:
   questPrereqs: []
   questSteps:
   - {fileID: 4415614546239261206, guid: dfc13fb4188f37548a38d2b8fd4aa145, type: 3}
-  - {fileID: 4415614546239261206, guid: dfc13fb4188f37548a38d2b8fd4aa145, type: 3}
   goldReward: 50
   expReward: 250

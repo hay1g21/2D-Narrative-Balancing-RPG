@@ -14,6 +14,10 @@ public class QuestPoint : MonoBehaviour
 
     private QuestState currQuestState;
 
+    [TextArea]
+    public string[] dialogue;
+    public string[] speaker; //for a back and forth if necessary
+
     [Header("Config")]
     [SerializeField] private bool startPoint = true; //if the thing is a finish point
 
@@ -39,12 +43,11 @@ public class QuestPoint : MonoBehaviour
     {
         if (isNear && (Input.GetButtonDown("Interact")) && !DialogueManager.instance.active)
         {
-            //DialogueManager.instance.active = true;
+
             //start dialgoue
             //Debug.Log("Can speak");
             //start dialogue
-            //DialogueManager.instance.setText(dialogue, speaker, 0.05f);
-            //DialogueManager.instance.dialogueSequence();
+            
             //Debug.Log("hello");
 
             //GameManager.instance.gameEvents.startQuest(questId);
@@ -54,9 +57,16 @@ public class QuestPoint : MonoBehaviour
             if(currQuestState.Equals(QuestState.CAN_START) && startPoint)
             {
                 GameManager.instance.gameEvents.startQuest(questId);
-            }else if(currQuestState.Equals(QuestState.CAN_FINISH) && finishPoint)
+                DialogueManager.instance.active = true;
+                DialogueManager.instance.setText(dialogue, speaker, 0.05f);
+                DialogueManager.instance.dialogueSequence();
+            }
+            else if(currQuestState.Equals(QuestState.CAN_FINISH) && finishPoint)
             {
                 GameManager.instance.gameEvents.finishQuest(questId);
+                DialogueManager.instance.active = true;
+                DialogueManager.instance.setText(dialogue, speaker, 0.05f);
+                DialogueManager.instance.dialogueSequence();
             }
         }
 

@@ -158,6 +158,8 @@ public class GameManager : MonoBehaviour
         gameState = OVERWORLD_STATE;
     }
 
+    
+
     public void loadCombat()
     {
         //move player
@@ -282,15 +284,56 @@ public class GameManager : MonoBehaviour
     {
         //change player stat and pstat then update text
         //if over the max just change
+        /*
         if((pStats["Health"] + amount) >= pStats["MaxHealth"])
         {
             amount = (int)pStats["MaxHealth"] - (int)pStats["Health"];
             Debug.Log("Adding" + amount);
         }
-        
-        player.GetComponent<OverworldPlayer>().editVal("Health", pStats["Health"] + amount);
+
+        //if in combat change it differnetly
+        if (gameState.Equals(IN_PROGRESS_STATE))
+        {
+            //pStats["Health"] = player.GetComponent<FighterStats>().health;
+            player.GetComponent<FighterStats>().health = player.GetComponent<FighterStats>().health + amount;
+            Debug.Log("New health = " + player.GetComponent<FighterStats>().health);
+            pStats["Health"] = player.GetComponent<FighterStats>().health;
+            Debug.Log("New health = " + pStats["Health"]);
+        }
+        else
+        {
+            player.GetComponent<OverworldPlayer>().editVal("Health", pStats["Health"] + amount);
+        }
+        */
+
+        //slightly more complex if in game
+        if (gameState.Equals(IN_PROGRESS_STATE))
+        {
+
+            FighterStats fs = player.GetComponent<FighterStats>();
+            if ((fs.health + amount) >= pStats["MaxHealth"])
+            {
+                amount = (int)pStats["MaxHealth"] - (int)fs.health;
+                Debug.Log("Adding" + amount);
+            }
+            //pStats["Health"] = player.GetComponent<FighterStats>().health;
+            fs.health = fs.health + amount;
+            pStats["Health"] = fs.health;
+            Debug.Log("New magic level = " + fs.health);
+        }
+        else
+        {
+            if ((pStats["Health"] + amount) >= pStats["MaxHealth"])
+            {
+                amount = (int)pStats["MaxHealth"] - (int)pStats["Health"];
+                Debug.Log("Adding" + amount);
+            }
+            player.GetComponent<OverworldPlayer>().editVal("Health", pStats["Health"] + amount);
+        }
+
+
         //pStats["Health"] += amount;
-        
+
         updateHealth();
         
     }
@@ -300,20 +343,29 @@ public class GameManager : MonoBehaviour
         //change player stat and pstat then update text
       
         //if over the max just change
-        if ((pStats["Magic"] + amount) >= pStats["MaxMagic"])
-        {
-            amount = (int)pStats["MaxMagic"] - (int)pStats["Magic"];
-            Debug.Log("Adding" + amount);
-        }
+        
 
         if (gameState.Equals(IN_PROGRESS_STATE))
         {
+            
+            FighterStats fs = player.GetComponent<FighterStats>();
+            if ((fs.magic + amount) >= pStats["MaxMagic"])
+            {
+                amount = (int)pStats["MaxMagic"] - (int)fs.magic;
+                Debug.Log("Adding" + amount);
+            }
             //pStats["Health"] = player.GetComponent<FighterStats>().health;
-            player.GetComponent<FighterStats>().magic = player.GetComponent<FighterStats>().magic+amount;
-            pStats["Magic"] = player.GetComponent<FighterStats>().magic + amount;
+            fs.magic =fs.magic+amount;
+            pStats["Magic"] = fs.magic;
+            Debug.Log("New magic level = " + fs.magic);
         }
         else
         {
+            if ((pStats["Magic"] + amount) >= pStats["MaxMagic"])
+            {
+                amount = (int)pStats["MaxMagic"] - (int)pStats["Magic"];
+                Debug.Log("Adding" + amount);
+            }
             player.GetComponent<OverworldPlayer>().editVal("Magic", pStats["Magic"] + amount);
         }
        
@@ -348,23 +400,40 @@ public class GameManager : MonoBehaviour
 
     public void updateHealth()
     {
-        Text expCounter = GameObject.Find("HeadsUpCanvas/MainPanel/HealthLabel/Count").GetComponent<Text>();
-        expCounter.text = pStats["Health"] + "/" + pStats["MaxHealth"];
+        //if in combat do it differently
+        if (gameState.Equals(IN_PROGRESS_STATE))
+        {
+            Text healthCounter = GameObject.Find("HeadsUpCanvas/HeroInfo/HealthLabel").GetComponent<Text>();
+            healthCounter.text = pStats["Health"] + "/" + pStats["MaxHealth"];
+            FighterStats fs = player.GetComponent<FighterStats>();
+            fs.updateHealthFill();
+        }
+        else
+        {
+            Text healthCounter = GameObject.Find("HeadsUpCanvas/MainPanel/HealthLabel/Count").GetComponent<Text>();
+            healthCounter.text = pStats["Health"] + "/" + pStats["MaxHealth"];
+        }
+        
 
     }
 
     public void updateMagic()
     {
+        //if in battle
         if (gameState.Equals(IN_PROGRESS_STATE))
         {
-            Text expCounter = GameObject.Find("HeadsUpCanvas/HeroInfo/MagicLabel").GetComponent<Text>();
-            expCounter.text = pStats["Magic"] + "/" + pStats["MaxMagic"];
+            Text magicCounter = GameObject.Find("HeadsUpCanvas/HeroInfo/MagicLabel").GetComponent<Text>();
+            magicCounter.text = pStats["Magic"] + "/" + pStats["MaxMagic"];
+            FighterStats fs = player.GetComponent<FighterStats>();
+            fs.updateMagicFill();
         }
         else
         {
-            Text expCounter = GameObject.Find("HeadsUpCanvas/MainPanel/MagicLabel/Count").GetComponent<Text>();
-            expCounter.text = pStats["Magic"] + "/" + pStats["MaxMagic"];
+            Text magicCounter = GameObject.Find("HeadsUpCanvas/MainPanel/MagicLabel/Count").GetComponent<Text>();
+            magicCounter.text = pStats["Magic"] + "/" + pStats["MaxMagic"];
         }
     }
+
+
 
 }

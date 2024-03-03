@@ -82,6 +82,49 @@ public class AttackScript : MonoBehaviour
        
     }
 
+    public void Attack(GameObject victim, float bonusDmg)
+    {
+        //get stats of both enemies
+        attackerStats = owner.GetComponent<FighterStats>();
+        targetStats = victim.GetComponent<FighterStats>();
+        Debug.Log(victim.name + " is being attacked with bonus Dmg 10");
+
+        if (attackerStats.magic >= magicCost) //if they have sufficient magic points allow spell - Melee costs 0 so is all good
+        {
+            float multiplier = Random.Range(minAttackMult, maxAttackMult);
+
+            damage = multiplier * attackerStats.melee + bonusDmg;
+
+            if (magicAttack)
+            {
+                damage = multiplier * attackerStats.magicRange;
+                //attackerStats.magic -= magicCost;
+            }
+            float defenseMultiplier = Random.Range(minDefenseMult, maxDefenseMult);
+            damage = Mathf.Max(0, damage - (defenseMultiplier * targetStats.defense));
+            Debug.Log("Damage done to target: " + damage);
+            //owner.GetComponent<Animator>().Play(animationName); for animation
+            attackerStats.updateMagicFill(magicCost);
+            targetStats.ReceiveDamage(Mathf.CeilToInt(damage));
+        }
+        else if (owner.tag.Equals("Enemy"))
+        {
+            //Enemy done goofed and did magic attack
+            Debug.Log("Enemy ran out of magic lol magic left = " + attackerStats.magic);
+            Invoke("SkipTurnContinueGame", 2);
+        }
+        else if (owner.tag.Equals("Player"))
+        {
+            //reset choice
+            GameObject.Find("GameControllerObject").GetComponent<GameController>().switchAttack();
+        }
+        else
+        {
+
+        }
+
+    }
+
     void SkipTurnContinueGame()
     {
         GameObject.Find("GameControllerObject").GetComponent<GameController>().NextTurn();

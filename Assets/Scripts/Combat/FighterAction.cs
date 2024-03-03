@@ -21,6 +21,9 @@ public class FighterAction : MonoBehaviour
 
     private GameObject currentAttack;
 
+    public GameObject minigame;
+
+
     public void setAttacks(GameObject a1, GameObject a2)
     {
         meleePrefab = a1;
@@ -36,8 +39,20 @@ public class FighterAction : MonoBehaviour
         if (btn.Equals("melee"))
         {
             //call an attack
-            meleePrefab.GetComponent<AttackScript>().Attack(victim);
-            Debug.Log("Melee");
+            if(tag == "Player")
+            {
+                Debug.Log("DO SOMETHING");
+                minigame.GetComponent<CombatMinigame>().finished = false;
+                StartCoroutine(playMinigame(victim));
+               
+                
+            }
+            else
+            {
+                meleePrefab.GetComponent<AttackScript>().Attack(victim);
+                Debug.Log("Melee");
+            }
+            
         }
         else if (btn.Equals("magic"))
         {
@@ -65,4 +80,27 @@ public class FighterAction : MonoBehaviour
     {
         
     }
+
+    IEnumerator playMinigame(GameObject victim)
+    {
+        Debug.Log("DO SOMETHIING");
+        minigame.GetComponent<CombatMinigame>().startMinigame();
+        while (!minigame.GetComponent<CombatMinigame>().finished)
+        {
+            
+            yield return new WaitForSeconds(0.05f);
+        }
+        Debug.Log("Hello");
+        if (minigame.GetComponent<CombatMinigame>().getBonus)
+        {
+            meleePrefab.GetComponent<AttackScript>().Attack(victim, 10);
+        }
+        else
+        {
+            meleePrefab.GetComponent<AttackScript>().Attack(victim);
+        }
+        
+        yield return null;
+    }
+
 }

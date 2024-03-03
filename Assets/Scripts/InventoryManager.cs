@@ -39,21 +39,53 @@ public class InventoryManager : MonoBehaviour
 
         
     }
+
+    //force the menu to close. Useful for combat
+    public void forceClosed()
+    {
+        Time.timeScale = 1;
+        inventoryMenu.SetActive(false);
+        activated = false;
+    }
     // Update is called once per frame
     void Update()
     {
         if (Input.GetButtonDown("Inventory") && activated && !DialogueManager.instance.active)
         {
-            Time.timeScale = 1;
-            inventoryMenu.SetActive(false);
-            activated = false;
+            if (!GameManager.instance.gameState.Equals(GameManager.IN_PROGRESS_STATE))
+            {
+                Time.timeScale = 1;
+                inventoryMenu.SetActive(false);
+                activated = false;
+            }
+            else
+            {
+                if (GameController.instance.canAttack)
+                {
+                    Time.timeScale = 1;
+                    inventoryMenu.SetActive(false);
+                    activated = false;
+                }
+            }  
         }
         else if (Input.GetButtonDown("Inventory")&& !activated && !DialogueManager.instance.active)
         {
-            inventoryMenu.SetActive(true);
-            activated = true;
-            Time.timeScale = 0;
-          
+            if (!GameManager.instance.gameState.Equals(GameManager.IN_PROGRESS_STATE))
+            {
+                inventoryMenu.SetActive(true);
+                activated = true;
+                Time.timeScale = 0;
+            }
+            else
+            {
+                if (GameController.instance.canAttack)
+                {
+                    inventoryMenu.SetActive(true);
+                    activated = true;
+                    Time.timeScale = 0;
+                }
+            }
+
         }
     }
     //called when used
@@ -66,7 +98,13 @@ public class InventoryManager : MonoBehaviour
             {
               
                 itemSOs[i].UseItem();
+                if (GameManager.instance.gameState.Equals(GameManager.IN_PROGRESS_STATE))
+                {
+                    //send event so gamecontroller knwos a turn has been used
+                    GameManager.instance.gameEvents.itemUsed();
+                }
             }
+            
         }
     }
     public int AddItem(string itemName, int quantity, Sprite itemSprite, string itemDesc)

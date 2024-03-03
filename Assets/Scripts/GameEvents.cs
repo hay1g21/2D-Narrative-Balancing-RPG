@@ -16,6 +16,27 @@ public class GameEvents
             onItemCollected();
         }
     }
+    //for using an item
+    public event Action onItemUsed;
+   
+    public void itemUsed()
+    {
+        if (onItemUsed != null)
+        {
+            onItemUsed();
+        }
+    }
+
+    //for a cutscene
+    public event Action<int> onCutSceneTrigger;
+
+    public void startCutscene(int id)
+    {
+        if (onCutSceneTrigger != null)
+        {
+            onCutSceneTrigger(id);
+        }
+    }
 
     //FOR QUESTS
 

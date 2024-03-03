@@ -10,13 +10,31 @@ public class QuestManager : MonoBehaviour
 
     public int currPlayerLevel; //change later to adapt to level
 
+    public static QuestManager instance; //static allows access from anywhere in code, even from other scripts
+
     private void Awake()
     {
         questMap = CreateQuestMap();
 
-        QuestScript quest = getQuestById("CollectItemsQuest");
+        //QuestScript quest = getQuestById("CollectItemsQuest");
         //Debug.Log(quest.info.displayName); //info is the SO
         //Debug.Log(quest.state);
+
+        if (QuestManager.instance != null)
+        {
+            //can destroy other objs here if they dupe
+            Destroy(gameObject);
+            return;
+        }
+
+        //PlayerPrefs.DeleteAll(); //deletes data use for debug
+
+        instance = this; //assigns itself to gamemanager object in the scene
+        //sceneloaded is an event which fires from scenemanager when scene is loadedgameEvents = new GameEvents();
+
+        DontDestroyOnLoad(gameObject);
+     
+
     }
 
     public void OnEnable()

@@ -14,6 +14,12 @@ public class DialogueManager : MonoBehaviour
 
     public bool active = false; //if dialogue is active
 
+    public MultiDimensionalString[] speeches;
+    public MultiDimensionalString[] speakers;
+
+
+    public int count; //
+
     private void Awake()
     {
         if (DialogueManager.instance != null)
@@ -35,6 +41,7 @@ public class DialogueManager : MonoBehaviour
     {
         //dialogueBox.SetActive(false); //hide it
         player = GameObject.Find("Player");
+        //cutSceneDiag();
         //dialogueSequence();
     }
 
@@ -42,6 +49,31 @@ public class DialogueManager : MonoBehaviour
     void Update()
     {
       
+    }
+
+    public void setCutDiag(MultiDimensionalString[] speeches, MultiDimensionalString[] speakers)
+    {
+        this.speeches = speeches;
+        this.speakers = speakers;
+
+    }
+    public void cutSceneDiag()
+    {
+        //if it has reached the end of the dialogue segments, end it
+
+        string[] speech = speeches[count].stringArr;
+        string[] speaker = speakers[count].stringArr;
+
+        setText(speech, speaker, 0.05f);
+        dialogueSequence();
+        count++;//increment
+
+        if (count >= speakers.Length)
+        {
+            Debug.Log("End of diag");
+            //reset count to 0
+            count = 0;
+        }
     }
 
     public void setText(string[] lines, string[] speakers, float speed)
