@@ -5,6 +5,17 @@ using System;
 
 public class GameEvents
 {
+    //defeating enemies
+    public event Action<string> onEnemyKilled;
+
+
+    public void enemyKilled(string enemyType)
+    {
+        if (onEnemyKilled != null)
+        {
+            onEnemyKilled(enemyType);
+        }
+    }
     //for picking up an item
     public event Action onItemCollected;
 
@@ -81,6 +92,18 @@ public class GameEvents
         if (onQuestStateChange != null)
         {
             onQuestStateChange(quest);
+        }
+    }
+
+    //to track individual quest step state
+    public event Action<string, int, QuestStepState> onQuestStepsStateChange; //string is the quest id
+
+    //function to activate event
+    public void questStepStateChange(string id, int stepIndex, QuestStepState questStepState)
+    {
+        if (onQuestStepsStateChange != null)
+        {
+            onQuestStepsStateChange(id, stepIndex, questStepState);
         }
     }
 }

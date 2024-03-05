@@ -8,6 +8,7 @@ public class WinScreen : MonoBehaviour
 
     public Text goldText;
     public Text expText;
+    public Text resultText;
 
     public Text itemText;
 
@@ -23,13 +24,26 @@ public class WinScreen : MonoBehaviour
         
     }
 
+    public void setItemReward(string items)
+    {
+        itemText.text = "Items Gained: " + items;
+    }
     public void setRewards()
     {
+        resultText.text = "Victory";
         goldText.text = "Gold: " + GameManager.instance.enemyData.GetComponent<OverworldEnemy>().getGold();
         expText.text = "Exp: " + GameManager.instance.enemyData.GetComponent<OverworldEnemy>().getExp();
 
-        //do items later
+        
     }
+    public void setLoss()
+    {
+        resultText.text = "Defeat";
+        goldText.text = "The monsters have beaten your party!";
+        expText.text = "You lost!";
+
+    }
+
 
     //activates when object is set active, so when the winscreen appears
 
@@ -40,6 +54,9 @@ public class WinScreen : MonoBehaviour
         if (GameManager.instance.gameState.Equals("VICTORY"))
         {
             setRewards();
+        }else if (GameManager.instance.gameState.Equals(GameManager.LOSE_STATE))
+        {
+            setLoss();
         }
         
     }

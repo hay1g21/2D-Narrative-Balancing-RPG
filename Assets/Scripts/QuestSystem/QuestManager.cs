@@ -43,6 +43,9 @@ public class QuestManager : MonoBehaviour
         GameManager.instance.gameEvents.onStartQuest += startQuest;
         GameManager.instance.gameEvents.onAdvanceQuest += advanceQuest;
         GameManager.instance.gameEvents.onFinishQuest += finishQuest;
+
+        GameManager.instance.gameEvents.onQuestStepsStateChange += questStepStateChange;
+       
     }
 
     private void OnDisable()
@@ -51,8 +54,19 @@ public class QuestManager : MonoBehaviour
         GameManager.instance.gameEvents.onStartQuest -= startQuest;
         GameManager.instance.gameEvents.onAdvanceQuest -= advanceQuest;
         GameManager.instance.gameEvents.onFinishQuest -= finishQuest;
+
+        GameManager.instance.gameEvents.onQuestStepsStateChange -= questStepStateChange;
     }
 
+    //just so questpoints know where they are at
+    public void UpdateQuestPoints()
+    {
+        //broadcast the state of all quests on startup
+        foreach (QuestScript qs in questMap.Values)
+        {
+            changeQuestState(qs.info.id, qs.state);
+        }
+    }
     private void Start()
     {
         //broadcast the state of all quests on startup
@@ -60,6 +74,7 @@ public class QuestManager : MonoBehaviour
         {
             GameManager.instance.gameEvents.questStateChange(quest);
         }
+        Debug.Log("Did it understand");
     }
 
     //constantly checks if quests can start
@@ -67,8 +82,10 @@ public class QuestManager : MonoBehaviour
     {
         foreach (QuestScript qs in questMap.Values)
         {
+            //Debug.Log("QuestStateNotReached");
             if(qs.state == QuestState.REQUIREMENTS_NOT_MET && checkReqsMet(qs))
             {
+                Debug.Log("QUest state reachd");
                 changeQuestState(qs.info.id, QuestState.CAN_START);
             }
         }
@@ -79,6 +96,14 @@ public class QuestManager : MonoBehaviour
         QuestScript quest = getQuestById(id);
         quest.state = state;
         GameManager.instance.gameEvents.questStateChange(quest); //tells questgiver that the quest has changed state
+    }
+
+    //changes state of indiv steps
+    private void questStepStateChange(string id, int stepIndex, QuestStepState qsState )
+    {
+        QuestScript quest = getQuestById(id);
+        quest.storeQuestStepState(qsState, stepIndex);
+        changeQuestState(id, quest.state);
     }
     private void startQuest(string id)
     {

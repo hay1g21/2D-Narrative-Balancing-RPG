@@ -136,15 +136,18 @@ public class FighterStats : MonoBehaviour, IComparable
             updateHealthCount();
             GameControllerObj.GetComponent<GameController>().cleanUP();
             Destroy(healthFill);
-            Destroy(gameObject);
+            
             if (tag.Equals("Enemy"))
             {
+                Destroy(gameObject);
                 GameManager.instance.winCombat();
             }
             else
             {
                 //lose combat
+                gameObject.transform.position = new Vector3(10, 10, gameObject.transform.position.z);
                 Debug.Log("You lost");
+                GameManager.instance.loseCombat();
             }
            
         }

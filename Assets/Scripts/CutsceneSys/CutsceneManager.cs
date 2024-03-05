@@ -19,6 +19,8 @@ public class CutsceneManager : MonoBehaviour
     public MultiDimensionalString[] speechSeq;
     public MultiDimensionalString[] speakerSeq;
 
+
+
     private void Awake()
     {
         /*
@@ -54,7 +56,9 @@ public class CutsceneManager : MonoBehaviour
     {
         //controlPanel.SetActive(true);
         Debug.Log("End of cutscene" + cutId);
+        GameManager.instance.cutscenesPlayed.Add(cutId.ToString());
         director.stopped -= Director_Stopped;
+        GameManager.instance.player.GetComponent<PlayerMovement>().switchMovement();
     }
 
     //starts the timeline
@@ -75,6 +79,7 @@ public class CutsceneManager : MonoBehaviour
         //get director
         if(cutsceneToPlay != null)
         {
+            GameManager.instance.player.GetComponent<PlayerMovement>().switchMovement();
             speechSeq = cutsceneToPlay.GetComponent<Cutscene>().speeches;
             speakerSeq = cutsceneToPlay.GetComponent<Cutscene>().speakers;
             
@@ -92,10 +97,6 @@ public class CutsceneManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            StartTimeLine();
-        }
 
 
     }

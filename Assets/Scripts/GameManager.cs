@@ -25,14 +25,19 @@ public class GameManager : MonoBehaviour
     public static string OVERWORLD_STATE = "OVERWORLD";
     public static string VICTORY_STATE = "VICTORY";
     public static string IN_PROGRESS_STATE = "IN_PROGRESS";
+    public static string LOSE_STATE = "LOSE";
 
     //####-GAME EVENTS -####//
 
     public GameEvents gameEvents;
 
+    public float itemChance = 50; //rng val for getting items
 
 
+    //recording when items are collected
     public List<string> enemiesdefeated = new List<string>();
+    public List<string> cutscenesPlayed = new List<string>();
+    // public List<string> itemsCollected = new List<string>();
 
     public void Awake()
     {
@@ -113,7 +118,22 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        
+
+        //delete cutscene triggers
+        GameObject cutSceneFolder = GameObject.Find("CutsceneFolder");
+        //Debug.Log(itemFolder);
+
+        foreach (Transform cutscene in cutSceneFolder.transform)
+        {
+            if (cutscenesPlayed.Contains(cutscene.gameObject.GetComponent<CutScenePlayer>().id.ToString()))
+            {
+                Destroy(cutscene.gameObject);
+            }
+        }
+
+
+        //delete cutscene triggers
+
 
 
         player = GameObject.Find("Player");
@@ -131,10 +151,19 @@ public class GameManager : MonoBehaviour
 
            
         //starting from screen e.g debugging
-        }else if (gameState.Equals("BEGIN"))
+        }else if(gameState.Equals(LOSE_STATE)){
+            player.transform.position = GameObject.Find("SpawnPoints/Start").transform.position;
+            if (pStats != null)
+            {
+                player.GetComponent<OverworldPlayer>().editVal("Health", 1);
+                player.GetComponent<OverworldPlayer>().editVal("Magic", pStats["Magic"]);
+            }
+        }
+        else if (gameState.Equals("BEGIN"))
         {
             //Debug.Log("OI");
             player.transform.position = GameObject.Find("SpawnPoints/Start").transform.position;
+
         //travelling between states
         }else if (gameState.Equals(OVERWORLD_STATE))
         {
@@ -151,6 +180,9 @@ public class GameManager : MonoBehaviour
             }
         }
         pStats = player.GetComponent<OverworldPlayer>().playerStats;
+
+        //update quest pointers again cause they're dumb
+        QuestManager.instance.UpdateQuestPoints();
         updateGold();
         updateExp();
         updateMagic();
@@ -229,15 +261,91 @@ public class GameManager : MonoBehaviour
 
 
     }
-
+    //return to overworld with 1 health and nearly dead, no rewards
+    public void loseCombat()
+    {
+        Debug.Log("Battle Lost");
+        gameState = LOSE_STATE;
+        GameObject player = GameObject.Find("Player");
+        pStats["Health"] = player.GetComponent<FighterStats>().health;
+        pStats["Magic"] = player.GetComponent<FighterStats>().magic;
+        winScreen.SetActive(true);
+    }
     public void winCombat()
     {
+        //quest signal
+        gameEvents.enemyKilled(enemyData.GetComponent<OverworldEnemy>().enemyName);
+
         Debug.Log("Battle won");
         gameState = "VICTORY";
         //add enemy to be dead
         enemiesdefeated.Add(enemyData.GetComponent<OverworldEnemy>().getId());
         gold = gold +enemyData.GetComponent<OverworldEnemy>().getGold();
         exp = exp + enemyData.GetComponent<OverworldEnemy>().getExp();
+
+        
+        GameObject itemFolder = GameObject.Find("ItemFolder");
+        //choose items to award with rng
+        
+
+        //item drop chance stats 4 now
+        //1 item, 75%
+        //2 quantity 20%
+        //3 quantity 5%
+        string[] itemsToWin = { "PoisonBolus", "Potion", "ManaPotion" };
+
+        string itemRewards = "";
+
+        
+        Item item = null;
+        float num = Random.Range(0, 101);
+        Debug.Log("Get item chance" + num);
+
+        int limit = 5;
+        int limitcount = 0;
+        if (num >= itemChance)
+        {
+            while(num >= itemChance && limitcount < limit)
+            {
+                float itemToPick = Random.Range(0, itemsToWin.Length);
+                foreach (Transform itemObj in itemFolder.transform)
+                {
+                    if (itemObj.gameObject.GetComponent<Item>().getName().Equals(itemsToWin[(int)itemToPick]))
+                    {
+                        item = itemObj.GetComponent<Item>();
+                    }
+                }
+
+                float quantityChance = Random.Range(0, 101);
+                int quantity = 1;
+                Debug.Log(quantityChance);
+                if (quantityChance <= 75)
+                {
+                    quantity = 1;
+                }
+                else if (quantityChance > 75 && quantityChance <= 95)
+                {
+                    quantity = 2;
+                }
+                else if (quantityChance > 95)
+                {
+                    quantity = 3;
+                }
+
+                int extraItems = InventoryManager.instance.AddItem(item.getName(), quantity, item.getSprite(), item.getItemDesc());
+                itemRewards = itemRewards + " " + item.getName() + ": " + quantity + ",";
+                limitcount++;
+                num = Random.Range(0, 101);
+            }
+            itemRewards = itemRewards.Substring(1, itemRewards.Length - 2);
+            winScreen.GetComponent<WinScreen>().setItemReward(itemRewards);
+        }
+        else
+        {
+            winScreen.GetComponent<WinScreen>().setItemReward("No Items");
+        }
+        
+        
         //toOverworld(prevScene);
         //move player
         GameObject player = GameObject.Find("Player");

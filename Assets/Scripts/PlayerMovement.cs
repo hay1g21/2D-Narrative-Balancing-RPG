@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed;
     public Rigidbody2D rb;
 
+    public bool moving = true;
+
     private Vector2 moveDir;
 
     private void Awake()
@@ -17,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        moving = true;
     }
 
     // Update is called once per frame - called based on framerate good for inputs
@@ -28,7 +30,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate() //consistent, good for physics
     {
-        Move();
+       
+      Move();
+       
+        
     }
 
     void ProcessInputs()
@@ -41,7 +46,20 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
-        rb.velocity = new Vector2(moveDir.x * moveSpeed, moveDir.y * moveSpeed);
+        if (moving)
+        {
+            rb.velocity = new Vector2(moveDir.x * moveSpeed, moveDir.y * moveSpeed);
+        }
+        else
+        {
+            rb.velocity = new Vector2(0, 0);
+        }
+        
 
+    }
+
+    public void switchMovement()
+    {
+        moving = !moving;
     }
 }

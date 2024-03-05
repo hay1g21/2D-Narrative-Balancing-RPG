@@ -7,6 +7,11 @@ public class CollectItemsQuestStep : QuestStepScript
     private int itemsCollected = 0;
     public int itemsToCollect;
 
+
+    private void Start()
+    {
+        updateState(); //need to update status right when the step object appears instead of first state change
+    }
     private void OnEnable()
     {
         Debug.Log(InventoryManager.instance);
@@ -22,7 +27,9 @@ public class CollectItemsQuestStep : QuestStepScript
     {
         if (itemsCollected < itemsToCollect)
         {
+            
             itemsCollected += 1;
+            updateState();
             Debug.Log("ItemCollected");
         }
 
@@ -30,5 +37,12 @@ public class CollectItemsQuestStep : QuestStepScript
         {
             finishQuestStep();
         }
+    }
+    //string to rep as state
+    private void updateState()
+    {
+        string state = itemsCollected.ToString();
+        string status = "Collected " + itemsCollected + "/" + itemsToCollect;
+        changeState(state,status);
     }
 }

@@ -8,9 +8,12 @@ public abstract class QuestStepScript : MonoBehaviour //inherit
     private bool finished = false;
     private string questId;
 
-    public void initialiseQuestStep(string questId)
+    private int stepIndex;
+
+    public void initialiseQuestStep(string questId, int stepIndex)
     {
         this.questId = questId;
+        this.stepIndex = stepIndex;
     }
 
     //indicates finishing a step
@@ -25,5 +28,10 @@ public abstract class QuestStepScript : MonoBehaviour //inherit
             //To do - advance quest forweard event
             Destroy(this.gameObject);
         }
+    }
+
+    protected void changeState(string newState, string newStatus)
+    {
+        GameManager.instance.gameEvents.questStepStateChange(questId, stepIndex, new QuestStepState(newState,newStatus));
     }
 }

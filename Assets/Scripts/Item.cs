@@ -84,6 +84,25 @@ public class Item : MonoBehaviour
         DialogueManager.instance.dialogueSequence();
     }
 
+    public string getName()
+    {
+        return itemName;
+    }
+
+    public int getQuantity()
+    {
+        return quantity;
+    }
+
+    public Sprite getSprite()
+    {
+        return sprite;
+    }
+
+    public string getItemDesc()
+    {
+        return itemDesc;
+    }
     /*
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -107,7 +126,7 @@ public class Item : MonoBehaviour
     }
     */
 
- 
 
-    
+
+
 }
