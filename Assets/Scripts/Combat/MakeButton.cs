@@ -10,6 +10,8 @@ public class MakeButton : MonoBehaviour
     private bool physical;
     private GameObject player;
     private GameObject GameControllerObj;
+
+    public bool active;
     public void Awake()
     {
        
@@ -32,23 +34,38 @@ public class MakeButton : MonoBehaviour
     //finds which button is pressed
     private void AttachCallback(string btn)
     {
-    
-        if(btn.Equals("atcBtn"))
+
+        if (btn.Equals("atcBtn"))
         {
             if (GameControllerObj.GetComponent<GameController>().getAttack())
             {
                 GameControllerObj.GetComponent<GameController>().switchAttack();
                 player.GetComponent<FighterAction>().SelectAttack("melee");
-            } 
+            }
 
-        }else if (btn.Equals("mgcBtn"))
+        }
+        else if (btn.Equals("mgcBtn"))
         {
             if (GameControllerObj.GetComponent<GameController>().getAttack())
             {
                 GameControllerObj.GetComponent<GameController>().switchAttack();
                 player.GetComponent<FighterAction>().SelectAttack("magic");
             }
-           
+
+        }
+        else if (btn.Equals("invBtn"))
+        {
+            if (active)
+            {
+                InventoryManager.instance.inventoryMenu.SetActive(false);
+                active = false;
+            }
+            else
+            {
+                InventoryManager.instance.inventoryMenu.SetActive(true);
+                active = true;
+            }
+
         }
         else if (btn.Equals("exitBtn"))
         {

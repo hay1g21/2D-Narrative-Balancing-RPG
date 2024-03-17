@@ -93,7 +93,7 @@ public class FighterAction : MonoBehaviour
         Debug.Log("Hello");
         if (minigame.GetComponent<CombatMinigame>().getBonus)
         {
-            meleePrefab.GetComponent<AttackScript>().Attack(victim, 10);
+            meleePrefab.GetComponent<AttackScript>().Attack(victim, 1.2f);
         }
         else
         {

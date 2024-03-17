@@ -105,15 +105,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: necromancer
+      name: npc_05
       rect:
         serializedVersion: 2
         x: 8
         y: 0
         width: 16
         height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5098194, y: 0.3428905}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -134,7 +134,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -142,6 +142,111 @@ TextureImporter:
       bones: []
       spriteID: 7fd512cfdaf6e0e468353022b4d33204
       internalID: -404805757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: npc_01
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 64
+        width: 16
+        height: 24
+      alignment: 9
+      pivot: {x: 0.48876166, y: 0.36513996}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c317b2987ff37542aa8bf53773765fb
+      internalID: 1722884989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: npc_02
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2f6fbec8589f87408bcd6562505ce1e
+      internalID: -730980643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: npc_03
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 64
+        width: 16
+        height: 22
+      alignment: 9
+      pivot: {x: 0.5112381, y: 0.3447068}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfda1c82915ff574fab4bc92ef9c58e8
+      internalID: -1033410765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: npc_04
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 32
+        width: 16
+        height: 22
+      alignment: 9
+      pivot: {x: 0.5098194, y: 0.43572772}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b72cf00ccd81e447a540cc17e6ff1c5
+      internalID: -1585483073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: npc_06
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 0
+        width: 16
+        height: 21
+      alignment: 9
+      pivot: {x: 0.5, y: 0.38029748}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cff6a7554c5bbe74190076484bcdbaf8
+      internalID: -1645721967
       vertices: []
       indices: 
       edges: []
@@ -158,8 +263,12 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       goblin: -404805757
-      necromancer: 1436432576
-      s4m_ur4i_huge-assetpack-characters_0: 1614053931
+      npc_01: 1614053931
+      npc_02: -730980643
+      npc_03: -1033410765
+      npc_04: -1585483073
+      npc_05: 1436432576
+      npc_06: -1645721967
       s4m_ur4i_huge-assetpack-characters_1: 1695215683
   spritePackingTag: 
   pSDRemoveMatte: 0

@@ -107,6 +107,7 @@ public class CutsceneManager : MonoBehaviour
         //start dialgoue
         //Debug.Log(speeches[0]);
         //DialogueManager.instance.setText(speeches, speakers, 0.05f);
+        Debug.Log("SIGNAL SIGNAL SIGNAL PLEASE");
         DialogueManager.instance.setCutDiag(speechSeq,speakerSeq);
         DialogueManager.instance.cutSceneDiag();
 

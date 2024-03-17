@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float moveSpeed;
     public Rigidbody2D rb;
-
+    private Vector3 originalSize;
     public bool moving = true;
 
     private Vector2 moveDir;
@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        originalSize = transform.localScale;
         moving = true;
     }
 
@@ -41,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
 
+        
         moveDir = new Vector2(moveX, moveY).normalized; //capped to 1
     }
 
@@ -48,6 +50,15 @@ public class PlayerMovement : MonoBehaviour
     {
         if (moving)
         {
+            if(moveDir.x > 0)
+            {
+                transform.localScale = new Vector3(originalSize.x * -1, originalSize.y, originalSize.z);
+            }
+            else if(moveDir.x < 0)
+            {
+                
+                transform.localScale = new Vector3(originalSize.x * 1, originalSize.y, originalSize.z);
+            }
             rb.velocity = new Vector2(moveDir.x * moveSpeed, moveDir.y * moveSpeed);
         }
         else

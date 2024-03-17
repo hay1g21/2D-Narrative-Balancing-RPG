@@ -143,7 +143,9 @@ public class QuestManager : MonoBehaviour
     {
         //give them money here
         GameManager.instance.gold += quest.info.goldReward;
-        GameManager.instance.updateGold();
+        GameManager.instance.exp += quest.info.expReward;
+        //GameManager.instance.updateGold();
+        GameManager.instance.gameEvents.collectExp(quest.info.expReward);
     }
     //check if you can do a quest
     private bool checkReqsMet(QuestScript quest) 

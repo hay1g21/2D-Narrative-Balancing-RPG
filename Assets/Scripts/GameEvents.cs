@@ -49,6 +49,16 @@ public class GameEvents
         }
     }
 
+    //For exp
+    public event Action<int> onExpCollected;
+
+    public void collectExp(int amount)
+    {
+        if (onExpCollected != null)
+        {
+            onExpCollected(amount);
+        }
+    }
     //FOR QUESTS
 
     public event Action<string> onStartQuest; //string is the quest id
@@ -104,6 +114,18 @@ public class GameEvents
         if (onQuestStepsStateChange != null)
         {
             onQuestStepsStateChange(id, stepIndex, questStepState);
+        }
+    }
+
+    //########FOR SLIDER###########
+
+    public event Action<int> onSliderStepChange; //int is the value of slider, from 0-6 (max play to max narr)
+
+    public void sliderStepChange(int val)
+    {
+        if (onSliderStepChange != null)
+        {
+            onSliderStepChange(val);
         }
     }
 }

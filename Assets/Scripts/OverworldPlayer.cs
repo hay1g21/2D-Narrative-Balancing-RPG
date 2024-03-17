@@ -24,10 +24,10 @@ public class OverworldPlayer : MonoBehaviour
     */
 
     public Dictionary<string, float> playerStats = new Dictionary<string, float>(){
-        {"Health", 100 },
-        {"MaxHealth",100 },
-        {"Magic", 50 },
-        {"MaxMagic",50 },
+        {"Health", 30 },
+        {"MaxHealth",30 },
+        {"Magic", 20 },
+        {"MaxMagic",20 },
         {"Melee", 10 },
         {"MagicRange",10 },
         {"Defense", 1.2f },
