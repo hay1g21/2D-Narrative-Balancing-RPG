@@ -14,11 +14,12 @@ public class InventoryManager : MonoBehaviour
 
     public List<int> itemIds = new List<int>(); //list of item ids
 
-    
+    public Sprite pechSprite;
     // Start is called before the first frame update
     void Start()
     {
-
+        //add special item pech to the thign
+        //AddItem("Pech",-1,pechSprite,"The spirit of the necromancer who doomed the world. Lives in Bones' Pouch. His astute observations help provide information about enemies.");
     }
 
 
@@ -96,6 +97,7 @@ public class InventoryManager : MonoBehaviour
            
             if (itemSOs[i].itemName.Equals(itemName))
             {
+
               
                 itemSOs[i].UseItem();
                 if (GameManager.instance.gameState.Equals(GameManager.IN_PROGRESS_STATE))
@@ -130,7 +132,33 @@ public class InventoryManager : MonoBehaviour
         }
         return quantity;
     }
+    //check if the item is in their inventory
+    public bool inInvent(string itemName)
+    {
+        bool yes = false;
 
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i].itemName.Equals(itemName)){
+                yes = true;
+            }
+        }
+        return yes; 
+    }
+
+    public void destroyItem(string itemName)
+    {
+
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i].itemName.Equals(itemName))
+            {
+                itemSlots[i].emptySlot();
+                break;
+            }
+        }
+        
+    }
 
     public void DeselectAllSlots()
     {

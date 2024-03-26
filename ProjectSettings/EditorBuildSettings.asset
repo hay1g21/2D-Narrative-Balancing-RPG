@@ -15,9 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/TurnbasedScene1.unity
     guid: 752667c9c3a25e74fb9bbec4776528ee
   - enabled: 1
-    path: Assets/Scenes/Level2.unity
-    guid: 3534f4a2ed6f0de468c1621f4116b069
-  - enabled: 1
     path: Assets/Scenes/Level1.unity
     guid: a8ea1ff4e228aaf4da7613a555b14ed1
+  - enabled: 0
+    path: Assets/Scenes/Level2.unity
+    guid: 30bcdc709a48a804badc8a06d83d38c9
   m_configObjects: {}

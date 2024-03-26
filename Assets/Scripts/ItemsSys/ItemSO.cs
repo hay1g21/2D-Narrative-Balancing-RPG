@@ -14,6 +14,8 @@ public class ItemSO : ScriptableObject
     public AttributeToChange attributeToChange = new AttributeToChange(); //adds to inspector??
     public int amountToChangeAttribute;
 
+    public SpecialUses specialUses = new SpecialUses();
+
     public void UseItem()
     {
         if(statToChange == StatToChange.health)
@@ -39,8 +41,13 @@ public class ItemSO : ScriptableObject
                 GameController.instance.itemDamage(amountToChangeStat);
             }
         }
+        if(specialUses == SpecialUses.pech)
+        {
+            Debug.Log("Pech");
+        }
     }
 
+    //REMEMEBER TO ADD NEW ITEM TO THE LIST OF ITEMS IN INVENT MANAGER
     public enum StatToChange
     {
         none,
@@ -57,4 +64,11 @@ public class ItemSO : ScriptableObject
         defense,
         speed
     };
+
+    public enum SpecialUses {
+
+        none,
+        key,
+        pech
+    }
 }

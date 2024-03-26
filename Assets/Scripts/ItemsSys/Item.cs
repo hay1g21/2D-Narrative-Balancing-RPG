@@ -24,6 +24,19 @@ public class Item : MonoBehaviour
 
     public bool collectAllowed;
 
+    public List<int> balanceLevels;
+
+    private void OnEnable()
+    {
+        GameManager.instance.gameEvents.onSliderStepChange += changeBalance;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.instance.gameEvents.onSliderStepChange -= changeBalance;
+    }
+
+
     private InventoryManager inventoryManager;
 
     void Start()
@@ -46,6 +59,39 @@ public class Item : MonoBehaviour
     {
         if (collectAllowed && (Input.GetButtonDown("Collect") || Input.GetButtonDown("Advance")))
             pickUp();
+    }
+
+
+    public void changeBalance(int val)
+    {
+        //show up or hide here
+
+        if (!balanceLevels.Contains(val))
+        {
+            transform.Find("Square").gameObject.SetActive(false);
+        }
+        else
+        {
+            transform.Find("Square").gameObject.SetActive(true);
+        }
+
+        GameObject spawns = GameObject.Find("Item" + id);
+
+        //now loop through and find the one it should be in
+
+        //Debug.Log("The value is " + val);
+        //Debug.Log("The game manager val is " + GameManager.instance.balanceLevel);
+        if(spawns != null)
+        {
+            foreach (Transform spawn in spawns.transform)
+            {
+                if (spawn.gameObject.GetComponent<BalanceSpawnPoints>().getSpawns().Contains(val))
+                {
+                    gameObject.transform.position = spawn.transform.position;
+                }
+            }
+        }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

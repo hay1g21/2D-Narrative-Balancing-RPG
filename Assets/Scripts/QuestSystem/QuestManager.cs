@@ -85,7 +85,7 @@ public class QuestManager : MonoBehaviour
             //Debug.Log("QuestStateNotReached");
             if(qs.state == QuestState.REQUIREMENTS_NOT_MET && checkReqsMet(qs))
             {
-                Debug.Log("QUest state reachd");
+                //Debug.Log("QUest state reached");
                 changeQuestState(qs.info.id, QuestState.CAN_START);
             }
         }

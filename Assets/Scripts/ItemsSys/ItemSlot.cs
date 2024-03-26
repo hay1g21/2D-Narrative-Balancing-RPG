@@ -33,6 +33,8 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     public Sprite emptySprite;
 
+    public bool nonConsum; //for nonconsumable items
+
     //description info
     public Image itemDescImg;
     public Text itemNameText;
@@ -47,6 +49,8 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         {
             return quantity;
         }
+
+        
 
         //update vals
         this.itemName = itemName;
@@ -79,6 +83,18 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         qText.text = this.quantity.ToString();
         qText.enabled = true;
 
+        if (quantity == -1)
+        {
+            nonConsum = true;
+            qText.text = "";
+
+        }
+        else
+        {
+            nonConsum = false;
+            
+        }
+
         return 0;
     }
 
@@ -109,13 +125,18 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
             Debug.Log("Using " + itemName);
             inManager.useItem(itemName);
             //update quantity visually and logically
+
             this.quantity -= 1;
             qText.text = this.quantity.ToString();
-            if(this.quantity <= 0)
+            if(this.quantity <= 0 && !nonConsum)
             {
                 //so it doesn go into negatives
                 quantity = 0;
                 emptySlot();
+            }
+            if (nonConsum)
+            {
+                qText.text = "";
             }
         }
         else
@@ -130,7 +151,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
 
     }
-    private void emptySlot()
+    public void emptySlot()
     {
         //make it reusable
         qText.enabled = false;
@@ -142,7 +163,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         itemDescText.text = "";
         isFull = false;
 
-
+        quantity = 0;
         itemDescImg.sprite = emptySprite;
         itemSprite = emptySprite;
     }

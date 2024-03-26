@@ -38,6 +38,8 @@ public class GameEvents
         }
     }
 
+    //for dialogue ending
+    //public event Action<string>
     //for a cutscene
     public event Action<int> onCutSceneTrigger;
 

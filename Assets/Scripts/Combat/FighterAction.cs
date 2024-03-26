@@ -41,7 +41,7 @@ public class FighterAction : MonoBehaviour
             //call an attack
             if(tag == "Player")
             {
-                Debug.Log("DO SOMETHING");
+                //Debug.Log("DO SOMETHING");
                 minigame.GetComponent<CombatMinigame>().finished = false;
                 StartCoroutine(playMinigame(victim));
                

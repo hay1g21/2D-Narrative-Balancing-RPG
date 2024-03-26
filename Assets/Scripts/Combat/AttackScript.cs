@@ -65,7 +65,10 @@ public class AttackScript : MonoBehaviour
             //owner.GetComponent<Animator>().Play(animationName); for animation
             attackerStats.updateMagicFill(magicCost);
             targetStats.ReceiveDamage(Mathf.CeilToInt(damage));
-        }else if (owner.tag.Equals("Enemy"))
+            //play anim
+            GameObject.Find("GameControllerObject").GetComponent<GameController>().playAnim(victim);
+        }
+        else if (owner.tag.Equals("Enemy"))
         {
             //Enemy done goofed and did magic attack
             Debug.Log("Enemy ran out of magic lol magic left = " + attackerStats.magic);
@@ -106,6 +109,8 @@ public class AttackScript : MonoBehaviour
             //owner.GetComponent<Animator>().Play(animationName); for animation
             attackerStats.updateMagicFill(magicCost);
             targetStats.ReceiveDamage(Mathf.CeilToInt(damage));
+            //play damage effect
+            GameObject.Find("GameControllerObject").GetComponent<GameController>().playAnim(victim);
         }
         else if (owner.tag.Equals("Enemy"))
         {

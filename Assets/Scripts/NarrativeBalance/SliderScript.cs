@@ -43,7 +43,7 @@ public class SliderScript : MonoBehaviour
             currentSliderText.text = positions[(int)v];
             currentSliderDescText.text = descs[(int)v];
             val = (int)v;
-            GameManager.instance.balanceLevel = val;
+            
             changed = true;
             //GameManager.instance.gameEvents.sliderStepChange((int)v);
            
@@ -57,7 +57,7 @@ public class SliderScript : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("BalanceMenu") && !DialogueManager.instance.active && GameManager.instance.sceneType.Equals("overworld"))
+        if (Input.GetButtonDown("BalanceMenu") && !DialogueManager.instance.active && !GameManager.instance.cutScenePlaying && GameManager.instance.sceneType.Equals("overworld"))
         {
             toggleMenu();
         }
@@ -83,7 +83,9 @@ public class SliderScript : MonoBehaviour
         {
             if (changed)
             {
+                GameManager.instance.balanceLevel = val;
                 GameManager.instance.gameEvents.sliderStepChange(val);
+                
                 changed = false;
             }
 

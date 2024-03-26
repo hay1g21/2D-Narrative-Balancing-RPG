@@ -11,6 +11,9 @@ public class GameController : MonoBehaviour
     public List<FighterStats> fighterStats; //list of fighters
     public static GameController instance; //static allows access from anywhere in code, even from other scripts
 
+    public GameObject damageEffect; //dmg effect
+    
+
     public void OnEnable()
     {
         //subscribe to events
@@ -87,6 +90,16 @@ public class GameController : MonoBehaviour
         
     }
     //when next turn is not called because the enemy died
+
+    public void playAnim(GameObject target)
+    {
+        //find target
+
+        Vector3 random = new Vector3(Random.Range(-.5f, .5f), Random.Range(-.5f, .5f), 0);
+        damageEffect.transform.position = target.transform.position + random;
+        damageEffect.GetComponent<Animator>().SetTrigger("TakeDamage");
+
+    }
     public void cleanUP()
     {
         Debug.Log("Do something mate");

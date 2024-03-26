@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     public string gameState = "BEGIN";
 
+    public bool cutScenePlaying;
+
     public GameObject enemyData;
 
     public GameObject winScreen;
