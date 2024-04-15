@@ -39,7 +39,7 @@ public class DiagPrompt : MonoBehaviour
 
 
     }
-
+    
     public void changeBalance(int val)
     {
 
@@ -51,13 +51,19 @@ public class DiagPrompt : MonoBehaviour
 
         //Debug.Log("The value is " + val);
         //Debug.Log("The game manager val is " + GameManager.instance.balanceLevel);
-        foreach (Transform spawn in spawns.transform)
+        if (spawns != null)
         {
-            if (spawn.gameObject.GetComponent<BalanceSpawnPoints>().getSpawns().Contains(val))
+            foreach (Transform spawn in spawns.transform)
             {
-                gameObject.transform.position = spawn.transform.position;
+                if (spawn.gameObject.GetComponent<BalanceSpawnPoints>().getSpawns().Contains(val))
+                {
+                    gameObject.transform.position = spawn.transform.position;
+                }
             }
         }
+
+
+       
     }
 
     //used to store any colliders of an object touching the level exit's trigger region
@@ -71,6 +77,7 @@ public class DiagPrompt : MonoBehaviour
             //if it does, the player has touched the exit and the next level is loaded
             DialogueManager.instance.setText(speeches, speakers, 0.03f);
             DialogueManager.instance.dialogueSequence();
+            GameManager.instance.dialogueBoxes.Add(id.ToString());
         }
     }
 

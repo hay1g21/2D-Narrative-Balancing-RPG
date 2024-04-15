@@ -45,6 +45,9 @@ public class OverworldEnemy : MonoBehaviour
     public float distance; //how far before chase is triggered
     public float aggroRange;
 
+
+    public bool automated;
+
     public void changeBalance(int val)
     {
         if (!balanceLevels.Contains(val))
@@ -66,16 +69,39 @@ public class OverworldEnemy : MonoBehaviour
 
         //Debug.Log("The value is " + val);
         //Debug.Log("The game manager val is " + GameManager.instance.balanceLevel);
-        if (spawns != null)
+
+        if (automated)
         {
-            foreach (Transform spawn in spawns.transform)
+            Transform spawn1 = null;
+            Transform spawn2 = null;
+
+            spawn1 = GameObject.Find(enemyName + id + "/" + "Ludic").transform;
+            spawn2 = GameObject.Find(enemyName + id + "/" + "Narrative").transform;
+
+
+
+            Vector3 distance = (spawn1.position - spawn2.position) / (balanceLevels.Count - 1);
+
+            Vector3 newDistance = spawn1.position - distance * val;
+            gameObject.transform.position = newDistance;
+        }
+        else
+        {
+            if (spawns != null)
             {
-                if (spawn.gameObject.GetComponent<BalanceSpawnPoints>().getSpawns().Contains(val))
+                foreach (Transform spawn in spawns.transform)
                 {
-                    gameObject.transform.position = spawn.transform.position;
+                    if (spawn.gameObject.GetComponent<BalanceSpawnPoints>().getSpawns().Contains(val))
+                    {
+                        gameObject.transform.position = spawn.transform.position;
+                    }
                 }
             }
         }
+
+        
+
+
 
     }
 

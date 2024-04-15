@@ -49,8 +49,8 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0.09983528}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.28866667}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.48876166, y: 0.36513996}
+    oldSize: {x: 1, y: 1.5}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -99,9 +99,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  m_Color: {r: 0.6320754, g: 0, b: 0.041561447, a: 1}
+  m_SortingOrder: 3
+  m_Sprite: {fileID: 1722884989, guid: 0eb00c4cab2432d4795c9b81c75d72d1, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -187,9 +187,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  m_Color: {r: 0.6320754, g: 0, b: 0.041561447, a: 1}
+  m_SortingOrder: 4
+  m_Sprite: {fileID: 1722884989, guid: 5813727acfdfbf34f90e93bcb231d407, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -211,25 +211,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 728ccd16a0912124bb1a5b1227b0446d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NPCname: Karlach
+  NPCname: Person
   givesQuest: 0
   givesItem: 0
   itemName: 
   itemDesc: 
   quantity: 0
   itemSprite: {fileID: 0}
+  balanceLevels: 00000000010000000200000003000000040000000500000006000000
   canTalk: 0
   isTalking: 0
   dialogue:
-  - Hey soldier im a triangle
-  - 'Okay well im a square
-
-'
-  - Maybe we'll be sprites soon
+  - Hello
   speaker:
-  - Karlach
-  - Bones
-  - Karlach
+  - Person
 --- !u!50 &9047882970304822495
 Rigidbody2D:
   serializedVersion: 4
@@ -267,8 +262,8 @@ BoxCollider2D:
   m_Offset: {x: 0, y: -0.8}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.28866667}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.48876166, y: 0.36513996}
+    oldSize: {x: 1, y: 1.5}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

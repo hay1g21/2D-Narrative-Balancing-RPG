@@ -77,7 +77,7 @@ public class SliderScript : MonoBehaviour
         
     }
 
-    private void toggleMenu()
+    public void toggleMenu()
     {
         if (contentParent.activeInHierarchy)
         {
@@ -106,7 +106,16 @@ public class SliderScript : MonoBehaviour
 
 
         }
-        GameManager.instance.player.GetComponent<PlayerMovement>().switchMovement();
+        if(GameManager.instance.sceneType == "")
+        {
+
+        }
+        else
+        {
+            
+            GameManager.instance.player.GetComponent<PlayerMovement>().switchMovement();
+        }
+       
 
     }
 }

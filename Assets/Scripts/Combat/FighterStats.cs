@@ -17,12 +17,13 @@ public class FighterStats : MonoBehaviour, IComparable
     public Text magicLabel;
 
     [Header("Stats")]
+    public string fighterName;
     public float health;
     public float magic;
     public float melee;
     public float magicRange;
     public float defense;
-    
+
     public float speed;
     public float experience;
 
@@ -37,7 +38,7 @@ public class FighterStats : MonoBehaviour, IComparable
     private Transform healthTransform;
     private Transform magicTransform;
 
-   
+
 
     private Vector2 healthScale;
     private Vector2 magicScale;
@@ -64,12 +65,16 @@ public class FighterStats : MonoBehaviour, IComparable
         updateHealthCount();
         updateMagicCount();
 
-}
+    }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    public void setName(string name){
+        this.fighterName = name;
     }
 
     public void setStats(float health, float magic, float melee, float magicRange, float defense, float speed, float experience)
@@ -123,6 +128,7 @@ public class FighterStats : MonoBehaviour, IComparable
 
     public void ReceiveDamage(float damage)
     {
+        
         health = health - damage;
         //animator.Play("Damage");
 
@@ -160,23 +166,43 @@ public class FighterStats : MonoBehaviour, IComparable
             updateHealthCount();
         }
         //show damage text on screen
+        string battleText = "";
+        
+        if (GameManager.instance.balanceLevel > 3 && tag.Equals("Enemy"))
+        {
+            MonsterManager monsterMan = GameObject.Find("MonsterManager").GetComponent<MonsterManager>();
+            if (monsterMan.attackStrength.Equals("bad"))
+            {
+                battleText += monsterMan.getBadAttack() + ", ";
+            }
+            else if (monsterMan.attackStrength.Equals("medium"))
+            {
+                battleText += monsterMan.getMedAttack() + ", ";
+            }
+            else if (monsterMan.attackStrength.Equals("good"))
+            {
+                battleText += monsterMan.getGoodAttack() + ", ";
+            }
+        }
        if(health != 0)
         {
             GameControllerObj.GetComponent<GameController>().battleText.gameObject.SetActive(true);
             if (tag.Equals("Player"))
             {
-                GameControllerObj.GetComponent<GameController>().battleText.text = damage.ToString() + " Damage Taken";
+                battleText += damage.ToString() + " Damage Taken by " + fighterName;
             }else if (tag.Equals("Enemy"))
             {
-                GameControllerObj.GetComponent<GameController>().battleText.text = damage.ToString() + " Damage Dealt";
+                battleText += damage.ToString() + " Damage Dealt to " + fighterName;
             }
             
         }
        
         if (damage <= 0)
         {
-            GameControllerObj.GetComponent<GameController>().battleText.text = "BLOCKED";
+            battleText += "BLOCKED";
         }
+        GameControllerObj.GetComponent<GameController>().battleText.text = battleText;
+
         //make next turn after 2 seconds
         Invoke("ContinueGame", 2);
     }

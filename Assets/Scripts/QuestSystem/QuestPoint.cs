@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class QuestPoint : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class QuestPoint : MonoBehaviour
 
     [SerializeField]
     private QuestSO questPointInfo;
+
+    public GameObject questPointer;
 
     private string questId;
 
@@ -35,17 +38,55 @@ public class QuestPoint : MonoBehaviour
     private void OnEnable()
     {
         GameManager.instance.gameEvents.onQuestStateChange += QuestStateChange;
+        GameManager.instance.gameEvents.onSliderStepChange += changeBalance;
     }
 
     private void OnDisable()
     {
         GameManager.instance.gameEvents.onQuestStateChange -= QuestStateChange;
+        GameManager.instance.gameEvents.onSliderStepChange -= changeBalance;
     }
+
+
+    
+
+    public void changeBalance(int val)
+    {
+        //show up or hide here
+
+        if (val < 3)
+        {
+            transform.Find("Pointer").gameObject.SetActive(true);
+        }
+        else
+        {
+            transform.Find("Pointer").gameObject.SetActive(false);
+        }
+
+        
+
+        //make interaction location wider if on balance level 6
+        if (val >= 5)
+        {
+            gameObject.GetComponent<BoxCollider2D>().size = new Vector2(2, 2);
+        }
+        else
+        {
+            gameObject.GetComponent<BoxCollider2D>().size = new Vector2(1, 1);
+        }
+
+        //now loop through and find the one it should be in
+
+        //Debug.Log("The value is " + val);
+       
+    }
+
+    private string accept = "A quest has been added to the log book.";
 
     // Update is called once per frame
     public void Update()
     {
-        if (isNear && (Input.GetButtonDown("Interact")) && !DialogueManager.instance.active)
+        if (isNear && ((Input.GetButtonDown("Interact")) || GameManager.instance.balanceLevel >=6) && !DialogueManager.instance.active)
         {
 
             //start dialgoue
@@ -62,6 +103,8 @@ public class QuestPoint : MonoBehaviour
             {
                 GameManager.instance.gameEvents.startQuest(questId);
                 DialogueManager.instance.active = true;
+                beginDialogue = beginDialogue.Concat(new string[] { accept }).ToArray();
+                beginSpeaker= beginSpeaker.Concat(new string[] { " " }).ToArray();
                 DialogueManager.instance.setText(beginDialogue, beginSpeaker, 0.05f);
                 DialogueManager.instance.dialogueSequence();
             }

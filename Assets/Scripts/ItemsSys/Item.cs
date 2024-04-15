@@ -9,11 +9,14 @@ public class Item : MonoBehaviour
     [SerializeField]
     private string itemName;
 
+   
     [SerializeField]
     private int quantity;
 
     [SerializeField]
     private Sprite sprite;
+
+    public Sprite hiddenSprite; //for higher narrative balances
 
     [TextArea]
     [SerializeField]
@@ -23,6 +26,8 @@ public class Item : MonoBehaviour
     public string[] speakers;
 
     public bool collectAllowed;
+    public bool inBalance;
+    
 
     public List<int> balanceLevels;
 
@@ -57,10 +62,11 @@ public class Item : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (collectAllowed && (Input.GetButtonDown("Collect") || Input.GetButtonDown("Advance")))
+        if (collectAllowed && (Input.GetButtonDown("Collect") || Input.GetButtonDown("Advance")) && inBalance)
             pickUp();
     }
 
+    public bool automated;
 
     public void changeBalance(int val)
     {
@@ -69,28 +75,60 @@ public class Item : MonoBehaviour
         if (!balanceLevels.Contains(val))
         {
             transform.Find("Square").gameObject.SetActive(false);
+            inBalance = false;
         }
         else
         {
             transform.Find("Square").gameObject.SetActive(true);
+            inBalance = true;
         }
 
+        //makes hidden
+        if(val >=1)
+        {
+            transform.Find("Square").gameObject.GetComponent<SpriteRenderer>().sprite = hiddenSprite;
+        }
+        else
+        {
+            transform.Find("Square").gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
+        }
         GameObject spawns = GameObject.Find("Item" + id);
 
         //now loop through and find the one it should be in
 
         //Debug.Log("The value is " + val);
         //Debug.Log("The game manager val is " + GameManager.instance.balanceLevel);
-        if(spawns != null)
+
+        if (automated)
         {
-            foreach (Transform spawn in spawns.transform)
+            Transform spawn1 = null;
+            Transform spawn2 = null;
+
+            spawn1 = GameObject.Find("Item" + id + "/" + "Ludic").transform;
+            spawn2 = GameObject.Find("Item" + id + "/" + "Narrative").transform;
+
+
+
+            Vector3 distance = (spawn1.position - spawn2.position) / (balanceLevels.Count - 1);
+
+            Vector3 newDistance = spawn1.position - distance * val;
+            gameObject.transform.position = newDistance;
+        }
+        else
+        {
+            if (spawns != null)
             {
-                if (spawn.gameObject.GetComponent<BalanceSpawnPoints>().getSpawns().Contains(val))
+                foreach (Transform spawn in spawns.transform)
                 {
-                    gameObject.transform.position = spawn.transform.position;
+                    if (spawn.gameObject.GetComponent<BalanceSpawnPoints>().getSpawns().Contains(val))
+                    {
+                        gameObject.transform.position = spawn.transform.position;
+                    }
                 }
             }
         }
+
+        
         
     }
 
@@ -99,7 +137,13 @@ public class Item : MonoBehaviour
         if (collision.gameObject.tag.Equals("Player"))
         {
             collectAllowed = true;
+            if (GameManager.instance.balanceLevel >= 1 && GameManager.instance.balanceLevel < 3)
+            {
+                transform.Find("Square").gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
+            }
         }
+        
+       
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -107,7 +151,12 @@ public class Item : MonoBehaviour
         if (collision.gameObject.tag.Equals("Player"))
         {
             collectAllowed = false;
+            if (GameManager.instance.balanceLevel >= 1 && GameManager.instance.balanceLevel < 3)
+            {
+                transform.Find("Square").gameObject.GetComponent<SpriteRenderer>().sprite = hiddenSprite;
+            }
         }
+        
     }
 
     private void pickUp()

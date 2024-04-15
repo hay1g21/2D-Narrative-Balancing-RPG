@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     public bool cutScenePlaying;
 
+    public bool firstBattle; //for showing tutorial
+
     public GameObject enemyData;
 
     public GameObject winScreen;
@@ -44,12 +46,14 @@ public class GameManager : MonoBehaviour
 
     public GameEvents gameEvents;
 
-    public float itemChance = 50; //rng val for getting items
+    private float itemChance = 75; //rng val for getting items
 
 
     //recording when items are collected
     public List<string> enemiesdefeated = new List<string>();
     public List<string> cutscenesPlayed = new List<string>();
+    public List<string> keyDoorsOpened = new List<string>();
+    public List<string> dialogueBoxes = new List<string>();
     // public List<string> itemsCollected = new List<string>();
 
     public void Awake()
@@ -146,6 +150,27 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        GameObject keydoorFolder = GameObject.Find("KeyDoorFolder");
+
+        foreach (Transform door in keydoorFolder.transform)
+        {
+            if (keyDoorsOpened.Contains(door.gameObject.GetComponent<Keydoor>().id.ToString()))
+            {
+                Destroy(door.gameObject);
+            }
+        }
+
+        //delete dialogue boxes when used
+        GameObject diagFolder = GameObject.Find("DialogueBoxes");
+
+        foreach (Transform box in diagFolder.transform)
+        {
+            if (dialogueBoxes.Contains(box.gameObject.GetComponent<DiagPrompt>().id.ToString()))
+            {
+                Destroy(box.gameObject);
+            }
+        }
+
 
         //delete cutscene triggers
 
@@ -203,15 +228,16 @@ public class GameManager : MonoBehaviour
 
         //update balance slider
         GameObject sliderCanv = GameObject.Find("SliderCanvas");
-        sliderCanv.GetComponent<SliderScript>().setSlider(balanceLevel);
-        //update quest pointers again cause they're dumb
-        QuestManager.instance.UpdateQuestPoints();
         updateGold();
         //unneeded
         //updateExp();
-       
+
         updateMagic();
         updateHealth();
+        sliderCanv.GetComponent<SliderScript>().setSlider(balanceLevel);
+        //update quest pointers again cause they're dumb
+        QuestManager.instance.UpdateQuestPoints();
+        
         gameState = OVERWORLD_STATE;
 
     }
@@ -229,8 +255,10 @@ public class GameManager : MonoBehaviour
         {
             FighterStats fStat = player.GetComponent<FighterStats>();
             fStat.setStats(pStats["Health"], pStats["Magic"], pStats["Melee"], pStats["MagicRange"], pStats["Defense"], pStats["Speed"],pStats["MaxHealth"], pStats["MaxMagic"]);
+          
 
         }
+        player.GetComponent<FighterStats>().setName("Bones");
         enemyData = GameObject.Find("Data");
         //enemyData.transform.position = new Vector3(50,50,enemyData.transform.position.z);
         Debug.Log("Load Combat");
@@ -241,6 +269,7 @@ public class GameManager : MonoBehaviour
         newEnemy.name = "CurrentEnemy"; //so gamecontroller script can refer to it
         //update its stats
         OverworldEnemy ed = enemyData.GetComponent<OverworldEnemy>();
+        newEnemy.GetComponent<FighterStats>().setName(ed.enemyName);
         newEnemy.GetComponent<FighterStats>().setStats(ed.getEnemyHealth(),ed.getEnemyMagic(),ed.getEnemyMelee(),ed.getEnemyRange(),ed.getEnemyDef(),ed.getEnemySpeed(),ed.getExp());
         newEnemy.transform.position = new Vector3(1, 1, transform.position.z);
         //make pretty
@@ -484,6 +513,8 @@ public class GameManager : MonoBehaviour
                 amount = (int)pStats["MaxHealth"] - (int)pStats["Health"];
                 Debug.Log("Adding" + amount);
             }
+           
+
             player.GetComponent<OverworldPlayer>().editVal("Health", pStats["Health"] + amount);
         }
 
@@ -492,6 +523,19 @@ public class GameManager : MonoBehaviour
 
         updateHealth();
         
+    }
+
+    public void pechToolTips()
+    {
+        if (gameState.Equals(IN_PROGRESS_STATE)){
+            //access goblin database
+            //set dialogue
+            //say scene
+            
+
+            GameObject monsterMan = GameObject.Find("MonsterManager");
+            monsterMan.GetComponent<MonsterManager>().getDescription();
+        }
     }
 
     public void changeMagic(int amount)
@@ -522,7 +566,15 @@ public class GameManager : MonoBehaviour
                 amount = (int)pStats["MaxMagic"] - (int)pStats["Magic"];
                 Debug.Log("Adding" + amount);
             }
-            player.GetComponent<OverworldPlayer>().editVal("Magic", pStats["Magic"] + amount);
+            if (player.GetComponent<OverworldPlayer>() == null)
+            {
+                Debug.Log("Still in winscreen");
+            }
+            else
+            {
+                player.GetComponent<OverworldPlayer>().editVal("Magic", pStats["Magic"] + amount);
+            }
+           
         }
        
         //pStats["Health"] += amount;
@@ -592,8 +644,15 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Text magicCounter = GameObject.Find("HeadsUpCanvas/MainPanel/MagicLabel/Count").GetComponent<Text>();
-            magicCounter.text = pStats["Magic"] + "/" + pStats["MaxMagic"];
+            if (GameObject.Find("HeadsUpCanvas/MainPanel/MagicLabel/Count")== null)
+            {
+                Debug.Log("Still in winscreen");
+            }else
+            {
+                Text magicCounter = GameObject.Find("HeadsUpCanvas/MainPanel/MagicLabel/Count").GetComponent<Text>();
+                magicCounter.text = pStats["Magic"] + "/" + pStats["MaxMagic"];
+            }
+            
         }
     }
 

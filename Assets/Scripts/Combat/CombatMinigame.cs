@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class CombatMinigame : MonoBehaviour
 {
 
@@ -25,8 +25,14 @@ public class CombatMinigame : MonoBehaviour
     public bool powerBarOn;
     public float maxPower;
     public float power;
-    
+
+    public GameObject panel;
+    public TMP_Text narrativeText;
+
+    public float balanceAdd; //adds time based on balance to make it easier
     private float xNewPowerScale;
+
+    public GameObject monsterManager;
 
     // Start is called before the first frame update
     private void Awake()
@@ -45,12 +51,18 @@ public class CombatMinigame : MonoBehaviour
         powerTransform = powerFill.GetComponent<RectTransform>();
         powerScale = powerFill.transform.localScale;
         powerBar.SetActive(false);
+        panel.SetActive(false);
+        balanceAdd = GameManager.instance.balanceLevel * 0.0025f;
     }
 
     public void startMinigame()
     {
         Debug.Log("Starting");
         powerBar.SetActive(true);
+        if(GameManager.instance.balanceLevel > 3)
+        {
+            panel.SetActive(true);
+        }
         powerBarOn = true;
         getBonus = false;
         power = 0;
@@ -67,9 +79,23 @@ public class CombatMinigame : MonoBehaviour
             {
                 power = 0;
             }
+            if(GameManager.instance.balanceLevel > 2)
+            {
+                if(power >= lowlim && power <= highlim)
+                {
+                    narrativeText.text = monsterManager.GetComponent<MonsterManager>().getGoodChoice();
+                }
+                else if(power >= 0 && power < 25)
+                {
+                    narrativeText.text = monsterManager.GetComponent<MonsterManager>().getBadChoice();
+                }else if(power >= 25 && power < lowlim)
+                {
+                    narrativeText.text = monsterManager.GetComponent<MonsterManager>().getMedChoice();
+                }
+            }
             xNewPowerScale = (power / maxPower);
             powerFill.transform.localScale = new Vector2(xNewPowerScale, powerScale.y);
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.005f + balanceAdd);
         }
         Debug.Log("Hello");
         yield return null;
@@ -84,11 +110,22 @@ public class CombatMinigame : MonoBehaviour
             powerBarOn = false;
             Debug.Log("Attack at power: " + power);
             powerBar.SetActive(false);
-            if(power >= lowlim && power <= highlim)
+            panel.SetActive(false);
+            if (power >= lowlim && power <= highlim)
             {
                 Debug.Log("Perfect attack");
                 getBonus = true;
+                monsterManager.GetComponent<MonsterManager>().setAttack(DialogueChoiceSO.OptionQuality.good);
             }
+                else if (power >= 0 && power < 33)
+            {
+                monsterManager.GetComponent<MonsterManager>().setAttack(DialogueChoiceSO.OptionQuality.bad);
+            }
+            else if (power >= 33 && power < lowlim)
+            {
+                monsterManager.GetComponent<MonsterManager>().setAttack(DialogueChoiceSO.OptionQuality.medium);
+            }
+
             finished = true;
         }
         if (Input.GetMouseButtonDown(1))

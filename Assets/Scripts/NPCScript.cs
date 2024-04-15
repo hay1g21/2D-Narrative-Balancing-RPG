@@ -30,6 +30,7 @@ public class NPCScript : MonoBehaviour
 
     [SerializeField]
     private bool canTalk;
+    private bool firstTalk;
     [SerializeField]
     private bool isTalking; //when dialogue activates
     [TextArea]
@@ -54,6 +55,8 @@ public class NPCScript : MonoBehaviour
         GameManager.instance.gameEvents.onSliderStepChange -= changeBalance;
     }
 
+    public bool automated;
+
     public void changeBalance(int val)
     {
         //show up or hide here
@@ -69,28 +72,61 @@ public class NPCScript : MonoBehaviour
 
         GameObject spawns = GameObject.Find(NPCname + "Spawn");
 
+        //make interaction location wider if on balance level 6
+        if(val >= 5)
+        {
+            gameObject.GetComponent<BoxCollider2D>().size = new Vector2(2, 2);
+        }
+        else
+        {
+            gameObject.GetComponent<BoxCollider2D>().size = new Vector2(1, 1);
+        }
+
         //now loop through and find the one it should be in
 
         //Debug.Log("The value is " + val);
         //Debug.Log("The game manager val is " + GameManager.instance.balanceLevel);
-        if (spawns != null)
+
+        if (automated)
         {
-            foreach (Transform spawn in spawns.transform)
+            Transform spawn1 = null;
+            Transform spawn2 = null;
+
+            spawn1 = GameObject.Find(NPCname + "Spawn" + "/" + "Ludic").transform;
+            spawn2 = GameObject.Find(NPCname + "Spawn" + "/" + "Narrative").transform;
+
+
+
+            Vector3 distance = (spawn1.position - spawn2.position) / (balanceLevels.Count - 1);
+
+            Vector3 newDistance = spawn1.position - distance * val;
+            gameObject.transform.position = newDistance;
+        }
+        else
+        {
+            if (spawns != null)
             {
-                if (spawn.gameObject.GetComponent<BalanceSpawnPoints>().getSpawns().Contains(val))
+                foreach (Transform spawn in spawns.transform)
                 {
-                    gameObject.transform.position = spawn.transform.position;
+                    if (spawn.gameObject.GetComponent<BalanceSpawnPoints>().getSpawns().Contains(val))
+                    {
+                        gameObject.transform.position = spawn.transform.position;
+                    }
                 }
             }
         }
+
+        
     }
 
 
     // Update is called once per frame
     public void Update()
     {
-        if (canTalk && (Input.GetButtonDown("Advance")) && !DialogueManager.instance.active && balanceLevels.Contains(GameManager.instance.balanceLevel))
+        if ((Input.GetButtonDown("Advance") || (GameManager.instance.balanceLevel >= 6 && !firstTalk)) &&canTalk  && !DialogueManager.instance.active && balanceLevels.Contains(GameManager.instance.balanceLevel))
         {
+            GameManager.instance.gameEvents.npcTalkedTo(NPCname);
+            firstTalk = true;
             DialogueManager.instance.active = true;
             //start dialgoue
             //Debug.Log("Can speak");

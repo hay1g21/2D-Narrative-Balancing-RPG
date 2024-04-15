@@ -60,8 +60,9 @@ public class CutsceneManager : MonoBehaviour
         Debug.Log("End of cutscene" + cutId);
         GameManager.instance.cutscenesPlayed.Add(cutId.ToString());
         director.stopped -= Director_Stopped;
-        GameManager.instance.player.GetComponent<PlayerMovement>().switchMovement();
-        hud.SetActive(true);
+        GameManager.instance.player.GetComponent<PlayerMovement>().allowMove();
+        //hud.SetActive(true);
+        hud.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0, -300);
         GameManager.instance.cutScenePlaying = false;
     }
 
@@ -83,6 +84,7 @@ public class CutsceneManager : MonoBehaviour
         //get director
         if(cutsceneToPlay != null)
         {
+            Debug.Log("MOVE");
             GameManager.instance.player.GetComponent<PlayerMovement>().switchMovement();
             speechSeq = cutsceneToPlay.GetComponent<Cutscene>().speeches;
             speakerSeq = cutsceneToPlay.GetComponent<Cutscene>().speakers;
@@ -97,7 +99,8 @@ public class CutsceneManager : MonoBehaviour
     public void StartTimeLine()
     {
         GameManager.instance.cutScenePlaying = true;
-        hud.SetActive(false);
+        //hud.SetActive(false);
+        hud.GetComponent<RectTransform>().anchoredPosition += new Vector2(0, -300);
         director.Play();
     }
 

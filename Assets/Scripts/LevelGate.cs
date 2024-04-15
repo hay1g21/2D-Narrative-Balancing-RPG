@@ -12,7 +12,8 @@ public class LevelGate : MonoBehaviour
     void Start()
     {
         SpriteRenderer ren = gameObject.GetComponent<SpriteRenderer>();
-        ren.color = new Vector4(ren.color.r, ren.color.g, ren.color.b, ren.color.a);
+        //ren.color = new Vector4(ren.color.r, ren.color.g, ren.color.b, ren.color.a);
+        ren.color = new Vector4(ren.color.r, ren.color.g, ren.color.b, 0);
 
 
     }

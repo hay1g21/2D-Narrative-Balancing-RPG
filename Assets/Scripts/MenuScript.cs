@@ -75,6 +75,7 @@ public class MenuScript : MonoBehaviour
         //Auidio has finished playing, disable GameObject
         if (action.Equals("Start"))
         {
+            GameObject.Find("SliderCanvas").GetComponent<SliderScript>().toggleMenu();
             GameManager.instance.toOverworld(startLevel);
         }else if (action.Equals("Quit"))
         {

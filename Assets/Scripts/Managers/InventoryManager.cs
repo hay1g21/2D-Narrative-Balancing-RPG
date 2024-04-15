@@ -76,6 +76,14 @@ public class InventoryManager : MonoBehaviour
                 inventoryMenu.SetActive(true);
                 activated = true;
                 Time.timeScale = 0;
+                for (int i = 0; i < itemSlots.Length; i++)
+                {
+                    if (itemSlots[i].thisItemSelected)
+                    {
+                        itemSlots[i].updateDesc();
+                        break;
+                    }
+                }
             }
             else
             {
@@ -145,6 +153,23 @@ public class InventoryManager : MonoBehaviour
         }
         return yes; 
     }
+
+    public string getItemStats(string itemName)
+    {
+        ItemSO item = null;
+
+        for (int i = 0; i < itemSOs.Length; i++)
+        {
+            if (itemSOs[i].itemName.Equals(itemName))
+            {
+                item = itemSOs[i];
+                break;
+            }
+        }
+
+        if (item != null) return item.parseItem(); else return "";
+    }
+
 
     public void destroyItem(string itemName)
     {

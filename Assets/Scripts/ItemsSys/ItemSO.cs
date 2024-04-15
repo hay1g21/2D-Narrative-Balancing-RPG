@@ -43,8 +43,55 @@ public class ItemSO : ScriptableObject
         }
         if(specialUses == SpecialUses.pech)
         {
+            GameManager.instance.pechToolTips();
             Debug.Log("Pech");
         }
+    }
+
+    //represent stats in string form
+    public string parseItem()
+    {
+        string itemParsed = "";
+
+        switch (statToChange)
+        {
+            case StatToChange.health:
+                itemParsed += "Health Recovery: ";
+                break;
+            case StatToChange.magic:
+                itemParsed += "Magic Recovery: ";
+                break;
+            case StatToChange.damage:
+                itemParsed += "Attack Damage: ";
+                break;
+            case StatToChange.none:
+                break;
+        }
+
+        if(amountToChangeStat !=  0)
+        {
+            itemParsed += amountToChangeStat;
+            itemParsed += "\n";
+        }
+      
+
+        switch (specialUses)
+        {
+            case SpecialUses.pech:
+                itemParsed += "Gives enemy details when used in battle.";
+                break;
+            case SpecialUses.key:
+                itemParsed += "Opens a door nearby.";
+                break;
+            case SpecialUses.story:
+                itemParsed += "No effect";
+                break;
+
+        }
+
+        return itemParsed;
+
+
     }
 
     //REMEMEBER TO ADD NEW ITEM TO THE LIST OF ITEMS IN INVENT MANAGER
@@ -69,6 +116,7 @@ public class ItemSO : ScriptableObject
 
         none,
         key,
+        story,
         pech
     }
 }

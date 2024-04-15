@@ -27,6 +27,19 @@ public class GameEvents
             onItemCollected();
         }
     }
+
+    //for picking up an item
+    public event Action<String> onNPCTalkedTo;
+
+
+    public void npcTalkedTo(string npcName)
+    {
+        if (onNPCTalkedTo != null)
+        {
+            onNPCTalkedTo(npcName);
+        }
+    }
+
     //for using an item
     public event Action onItemUsed;
    

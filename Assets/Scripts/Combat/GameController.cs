@@ -46,6 +46,7 @@ public class GameController : MonoBehaviour
         GameController.instance.switchAttack();
         Debug.Log("USE ITEM");
         InventoryManager.instance.forceClosed();
+        
         Invoke("NextTurn", 2);
     }
 

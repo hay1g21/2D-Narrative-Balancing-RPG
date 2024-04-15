@@ -35,10 +35,38 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     public bool nonConsum; //for nonconsumable items
 
+    private int balanceVal;
+
     //description info
     public Image itemDescImg;
     public Text itemNameText;
     public Text itemDescText;
+
+
+    private void OnEnable()
+    {
+        if (GameManager.instance != null)
+        {
+            //GameManager.instance.gameEvents.onSliderStepChange += changeBalance;
+        }
+
+    }
+
+    private void OnDisable()
+    {
+        if (GameManager.instance != null)
+        {
+            //GameManager.instance.gameEvents.onSliderStepChange -= changeBalance;
+        }
+
+    }
+
+    public void changeBalance(int val)
+    {
+        //other stuff here if needed
+        balanceVal = val;
+        Debug.Log("Balance Value now: " + balanceVal);
+    }
 
 
     //for adding an item to the slot
@@ -141,15 +169,52 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         }
         else
         {
+
             inManager.DeselectAllSlots();
             selectedShader.SetActive(true);
             thisItemSelected = true;
             itemNameText.text = itemName;
-            itemDescText.text = itemDesc;
+            //change description to match ludic or narrative
+
+
+            updateDesc();
             itemDescImg.sprite = itemSprite;
+
         }
 
 
+    }
+
+    public void updateDesc()
+    {
+        if (GameManager.instance.balanceLevel < 1)
+        {
+            //get info from item
+            string itemInfoDesc = inManager.getItemStats(itemName);
+            itemDescText.text = itemInfoDesc;
+
+        }
+        //1-2 put details at top
+        else if (GameManager.instance.balanceLevel >= 1 && GameManager.instance.balanceLevel <= 2)
+        {
+            string itemInfoDesc = inManager.getItemStats(itemName);
+
+            itemDescText.text = itemInfoDesc + "\n" + itemDesc;
+        }
+        //3-4-5
+        else if (GameManager.instance.balanceLevel >= 3 && GameManager.instance.balanceLevel <= 5)
+        {
+            string itemInfoDesc = inManager.getItemStats(itemName);
+
+            itemDescText.text = itemDesc + "\n" + itemInfoDesc;
+
+        }
+        //6
+        else
+        {
+            itemDescText.text = itemDesc;
+
+        }
     }
     public void emptySlot()
     {

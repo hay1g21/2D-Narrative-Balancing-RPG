@@ -15,12 +15,13 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        moving = true;
     }
     // Start is called before the first frame update
     void Start()
     {
         originalSize = transform.localScale;
-        moving = true;
+        //moving = true;
     }
 
     // Update is called once per frame - called based on framerate good for inputs
@@ -68,9 +69,23 @@ public class PlayerMovement : MonoBehaviour
         
 
     }
-
+    
     public void switchMovement()
     {
+        //Debug.Log("How many times are you being called");
         moving = !moving;
+    }
+    
+
+    public void allowMove()
+    {
+        //Debug.Log("How many times are you being called to allow?");
+        moving = true;
+    }
+
+    public void abortMove()
+    {
+        //Debug.Log("How many times are you being called to abort?");
+        moving = false;
     }
 }

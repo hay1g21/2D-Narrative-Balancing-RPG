@@ -23,6 +23,8 @@ public class FighterAction : MonoBehaviour
 
     public GameObject minigame;
 
+    public GameObject narrMinigame;
+
 
     public void setAttacks(GameObject a1, GameObject a2)
     {
@@ -42,8 +44,18 @@ public class FighterAction : MonoBehaviour
             if(tag == "Player")
             {
                 //Debug.Log("DO SOMETHING");
-                minigame.GetComponent<CombatMinigame>().finished = false;
-                StartCoroutine(playMinigame(victim));
+                if(GameManager.instance.balanceLevel < 6)
+                {
+                    minigame.GetComponent<CombatMinigame>().finished = false;
+                    StartCoroutine(playMinigame(victim));
+                }
+                else
+                {
+
+                    narrMinigame.GetComponent<NarrativeMinigame>().finished = false;
+                    StartCoroutine(playNarrativeMinigame(victim));
+                }
+               
                
                 
             }
@@ -70,7 +82,7 @@ public class FighterAction : MonoBehaviour
     void Start()
     {
         //get player and enemt
-        Debug.Log("bruh");
+        //Debug.Log("bruh");
         player = GameObject.FindGameObjectWithTag("Player");
         enemy = GameObject.Find("CurrentEnemy");
     }
@@ -94,6 +106,7 @@ public class FighterAction : MonoBehaviour
         if (minigame.GetComponent<CombatMinigame>().getBonus)
         {
             meleePrefab.GetComponent<AttackScript>().Attack(victim, 1.2f);
+            GameManager.instance.changeMagic(2); //gain back mp on a successful attack
         }
         else
         {
@@ -103,4 +116,27 @@ public class FighterAction : MonoBehaviour
         yield return null;
     }
 
+    IEnumerator playNarrativeMinigame(GameObject victim)
+    {
+        Debug.Log("DO SOMETHIING");
+        narrMinigame.GetComponent<NarrativeMinigame>().startMinigame();
+
+        while (!narrMinigame.GetComponent<NarrativeMinigame>().finished)
+        {
+
+            yield return new WaitForSeconds(0.05f);
+        }
+        Debug.Log("Hello");
+        if (narrMinigame.GetComponent<NarrativeMinigame>().getBonus)
+        {
+            meleePrefab.GetComponent<AttackScript>().Attack(victim, 1.2f);
+            GameManager.instance.changeMagic(2); //gain back mp on a successful attack
+        }
+        else
+        {
+            meleePrefab.GetComponent<AttackScript>().Attack(victim);
+        }
+
+        yield return null;
+    }
 }

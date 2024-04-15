@@ -793,7 +793,7 @@ MonoBehaviour:
   settingsButt: {fileID: 1344115832}
   quitButt: {fileID: 279190665}
   title: {fileID: 581849149}
-  startLevel: 4
+  startLevel: 3
 --- !u!1 &279190665
 GameObject:
   m_ObjectHideFlags: 0
@@ -1991,6 +1991,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneType: 
   gameState: BEGIN
+  cutScenePlaying: 0
+  firstBattle: 0
   enemyData: {fileID: 0}
   winScreen: {fileID: 0}
   prevScene: 0
@@ -2005,6 +2007,8 @@ MonoBehaviour:
   itemChance: 35
   enemiesdefeated: []
   cutscenesPlayed: []
+  keyDoorsOpened: []
+  dialogueBoxes: []
   player: {fileID: 0}
   lastPos: {x: 0, y: 0, z: 0}
   gold: 0
