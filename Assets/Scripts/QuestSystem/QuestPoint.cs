@@ -13,6 +13,8 @@ public class QuestPoint : MonoBehaviour
 
     public GameObject questPointer;
 
+    
+
     private string questId;
 
     private QuestState currQuestState;
@@ -54,7 +56,7 @@ public class QuestPoint : MonoBehaviour
     {
         //show up or hide here
 
-        if (val < 3)
+        if (val <= 3)
         {
             transform.Find("Pointer").gameObject.SetActive(true);
         }
@@ -82,7 +84,7 @@ public class QuestPoint : MonoBehaviour
     }
 
     private string accept = "A quest has been added to the log book.";
-
+    private string end = "Rewards have been added to your inventory.";
     // Update is called once per frame
     public void Update()
     {
@@ -103,15 +105,33 @@ public class QuestPoint : MonoBehaviour
             {
                 GameManager.instance.gameEvents.startQuest(questId);
                 DialogueManager.instance.active = true;
-                beginDialogue = beginDialogue.Concat(new string[] { accept }).ToArray();
-                beginSpeaker= beginSpeaker.Concat(new string[] { " " }).ToArray();
+                if(GameManager.instance.balanceLevel < 2)
+                {
+                    beginDialogue = new string[] { accept };
+                }
+                else
+                {
+                    beginDialogue = beginDialogue.Concat(new string[] { accept }).ToArray();
+                   
+                }
+                beginSpeaker = beginSpeaker.Concat(new string[] { " " }).ToArray();
                 DialogueManager.instance.setText(beginDialogue, beginSpeaker, 0.05f);
                 DialogueManager.instance.dialogueSequence();
+
             }
             else if(currQuestState.Equals(QuestState.CAN_FINISH) && finishPoint)
             {
                 GameManager.instance.gameEvents.finishQuest(questId);
                 DialogueManager.instance.active = true;
+                if (GameManager.instance.balanceLevel < 2)
+                {
+                    finishDialogue = new string[] { end };
+                }
+                else
+                {
+                   
+
+                }
                 DialogueManager.instance.setText(finishDialogue, finishSpeaker, 0.05f);
                 DialogueManager.instance.dialogueSequence();
             }else{

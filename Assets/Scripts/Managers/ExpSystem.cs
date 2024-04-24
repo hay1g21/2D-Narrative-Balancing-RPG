@@ -18,9 +18,9 @@ public class ExpSystem : MonoBehaviour
         { "Speed", 10 },
     */
 
-    public float xpStep;
+    private float xpStep = 12;
     public float xpStepMult;
-    public int firstStep;
+    private int firstStep = 20;
     //.if in overworld, update exp counter
     //if limit overcome, increment level, call gamemanager to do stuff
 
@@ -48,7 +48,7 @@ public class ExpSystem : MonoBehaviour
     private void Awake()
     {
         //create level tree
-        xpLevels = new int[10];
+        xpLevels = new int[20];
         xpLevels[0] = firstStep;
         for (int i = 1; i < xpLevels.Length; i++)
         {

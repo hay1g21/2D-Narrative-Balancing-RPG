@@ -93749,7 +93749,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.3333335
+  orthographic size: 6.333333
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -97637,6 +97637,10 @@ PrefabInstance:
     - target: {fileID: 7289874286481331138, guid: 27f6178b2ec907245b98c9b5a43666c8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7289874286481331139, guid: 27f6178b2ec907245b98c9b5a43666c8, type: 3}
+      propertyPath: id
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 7289874286481331139, guid: 27f6178b2ec907245b98c9b5a43666c8, type: 3}
       propertyPath: speakers.Array.size
@@ -103071,6 +103075,32 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1644657012}
     m_Modifications:
+    - target: {fileID: 9047882970304822488, guid: 425c5454f487d3144a995a428bc88493, type: 3}
+      propertyPath: speaker.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047882970304822488, guid: 425c5454f487d3144a995a428bc88493, type: 3}
+      propertyPath: dialogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047882970304822488, guid: 425c5454f487d3144a995a428bc88493, type: 3}
+      propertyPath: speaker.Array.data[0]
+      value: Hannah
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047882970304822488, guid: 425c5454f487d3144a995a428bc88493, type: 3}
+      propertyPath: speaker.Array.data[1]
+      value: Hannah
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047882970304822488, guid: 425c5454f487d3144a995a428bc88493, type: 3}
+      propertyPath: dialogue.Array.data[0]
+      value: Finally, I'm out of that horrible crypt...you really did a number on
+        those creepy things, huh?
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047882970304822488, guid: 425c5454f487d3144a995a428bc88493, type: 3}
+      propertyPath: dialogue.Array.data[1]
+      value: Not like this forest is any better though. There's a hundred more of
+        them..
+      objectReference: {fileID: 0}
     - target: {fileID: 9047882970304822492, guid: 425c5454f487d3144a995a428bc88493, type: 3}
       propertyPath: m_Name
       value: NPC
@@ -105347,9 +105377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerLevel: 1
-  xpStep: 50
   xpStepMult: 1.2
-  firstStep: 50
   xpLevels: 
   currExp: 0
   currIndex: 0

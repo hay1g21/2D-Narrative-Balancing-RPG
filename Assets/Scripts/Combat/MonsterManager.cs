@@ -19,7 +19,7 @@ public class MonsterManager : MonoBehaviour
     private string[] speaker = {"Pech"};
     private string[] finalDiag;
 
-    private string[] enemyList = { "Goblin", "Shaman", "Fairy", "Carnivlora" };
+    private string[] enemyList = { "Goblin", "Shaman", "GoblinGeneral", "Carnivlora" };
     [TextArea]
     public string[] descs; //for eahc enemy
 

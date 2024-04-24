@@ -107,6 +107,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        // Check if the Escape key is pressed
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // Call a function or perform an action when the Escape key is pressed
+            gameObject.transform.SetParent(GameObject.Find("Player").transform);
+            GameObject.Find("QuestManager").transform.SetParent(GameObject.Find("Player").transform);
+            GameObject.Find("InventoryCanvas").transform.SetParent(GameObject.Find("Player").transform);
+            SceneManager.sceneLoaded -= onSceneLoaded; //runs every scene
+            SceneManager.LoadScene(0);
+
+            // For example, you can quit the application
+            // Application.Quit();
+        }
+    }
+
     public void loadOve()
     {
         Debug.Log("Load Environment");
@@ -189,6 +206,8 @@ public class GameManager : MonoBehaviour
                 player.GetComponent<OverworldPlayer>().editVal("Magic", pStats["Magic"]);
                 player.GetComponent<OverworldPlayer>().editVal("MaxHealth", pStats["MaxHealth"]);
                 player.GetComponent<OverworldPlayer>().editVal("MaxMagic", pStats["MaxMagic"]);
+                player.GetComponent<OverworldPlayer>().editVal("Melee", pStats["Melee"]);
+                player.GetComponent<OverworldPlayer>().editVal("MagicRange", pStats["MagicRange"]);
             }
 
            
@@ -222,6 +241,8 @@ public class GameManager : MonoBehaviour
                 player.GetComponent<OverworldPlayer>().editVal("Magic", pStats["Magic"]);
                 player.GetComponent<OverworldPlayer>().editVal("MaxHealth", pStats["MaxHealth"]);
                 player.GetComponent<OverworldPlayer>().editVal("MaxMagic", pStats["MaxMagic"]);
+                player.GetComponent<OverworldPlayer>().editVal("Melee", pStats["Melee"]);
+                player.GetComponent<OverworldPlayer>().editVal("MagicRange", pStats["MagicRange"]);
             }
         }
         pStats = player.GetComponent<OverworldPlayer>().playerStats;
@@ -458,6 +479,14 @@ public class GameManager : MonoBehaviour
 
             float amount2 = pStats["MaxMagic"] + Mathf.Ceil(magicGain * diff);
             pStats["MaxMagic"] = amount2;
+
+            float damageAmount = meleegain;
+
+            pStats["Melee"] = pStats["Melee"] + damageAmount;
+            pStats["MagicRange"] = pStats["MagicRange"] + rangeGain;
+
+
+        
         }
         updateHealth();
         updateMagic();

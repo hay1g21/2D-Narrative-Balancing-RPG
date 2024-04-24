@@ -19,4 +19,4 @@ MonoBehaviour:
   questSteps:
   - {fileID: 8522669467513733549, guid: 00be66619318fb643b0c09cbb83e8671, type: 3}
   goldReward: 5
-  expReward: 5
+  expReward: 10

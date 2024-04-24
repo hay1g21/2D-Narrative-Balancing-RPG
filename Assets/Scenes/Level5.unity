@@ -38230,7 +38230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3385415775819190059, guid: 67938add11b136a479634b676de0f173, type: 3}
       propertyPath: speeches.Array.data[1]
-      value: Please reopen the game to play it again on another balance setting
+      value: Please press Esc to restart the game.
       objectReference: {fileID: 0}
     - target: {fileID: 3385415775819190059, guid: 67938add11b136a479634b676de0f173, type: 3}
       propertyPath: balanceLevels.Array.size
@@ -62637,9 +62637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerLevel: 1
-  xpStep: 50
   xpStepMult: 1.2
-  firstStep: 50
   xpLevels: 
   currExp: 0
   currIndex: 0
@@ -63491,7 +63489,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8554225129484308898, guid: 2bad4183417f9d7469d9f0df4469a0b3, type: 3}
       propertyPath: exp
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8554225129484308898, guid: 2bad4183417f9d7469d9f0df4469a0b3, type: 3}
       propertyPath: gold
@@ -63527,7 +63525,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8554225129484308898, guid: 2bad4183417f9d7469d9f0df4469a0b3, type: 3}
       propertyPath: enemyHealth
-      value: 100
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 8554225129484308899, guid: 2bad4183417f9d7469d9f0df4469a0b3, type: 3}
       propertyPath: m_Sprite
