@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Code is modified from https://github.com/shapedbyrainstudios/quest-system/blob/3-quest-log-implemented/Assets/Scripts/QuestSystem/QuestManager.cs by trevermock (2023)
+
 public class QuestManager : MonoBehaviour
 {
     private Dictionary<string, QuestScript> questMap;

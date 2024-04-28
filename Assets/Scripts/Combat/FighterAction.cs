@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Code is modified from https://github.com/kurtkaiser/RPG-Battle-Game-Video/blob/master/Assets/Scripts/FighterAction.cs by kurtkaiser (2020)
+
 public class FighterAction : MonoBehaviour
 {
     // Start is called before the first frame update

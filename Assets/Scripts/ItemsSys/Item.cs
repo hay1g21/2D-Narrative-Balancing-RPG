@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+/*
+   
+   Adapted from:
+   "Part 2: Collectible Items -- Let's Make An Inventory System In Unity!" by Night Run Studio (YouTube, 2023)
+   Video URL: https://www.youtube.com/watch?v=LaQp5u0_UYk
+*/
 public class Item : MonoBehaviour
 {
     public int id; //keeps track of id to store collected items

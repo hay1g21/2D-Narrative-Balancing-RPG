@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+
+//Code is modified from https://github.com/shapedbyrainstudios/quest-system/blob/3-quest-log-implemented/Assets/Scripts/UI/QuestLogScrollingList.cs by trevermock (2023)
+
 public class QuestLogScrollingList : MonoBehaviour
 {
     [SerializeField] //need ref to where to instantiate#

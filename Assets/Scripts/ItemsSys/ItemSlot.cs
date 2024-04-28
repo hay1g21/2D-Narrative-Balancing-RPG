@@ -5,6 +5,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+
+/*
+   
+   Adapted from:
+   "Part 3: Fillable Item Slots -- Let's Make An Inventory System In Unity!" by Night Run Studio (YouTube, 2023)
+   Video URL: https://www.youtube.com/watch?v=HInkDgCaf1w
+*/
+
 public class ItemSlot : MonoBehaviour, IPointerClickHandler
 {
     //Item information

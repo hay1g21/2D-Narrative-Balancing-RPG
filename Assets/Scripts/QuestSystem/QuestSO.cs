@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Code is modified from https://github.com/shapedbyrainstudios/quest-system/blob/3-quest-log-implemented/Assets/Scripts/QuestSystem/QuestInfoSO.cs by trevermock (2023)
+
+[System.Serializable]
 [CreateAssetMenu(fileName = "QuestSO", menuName = "ScriptableObjects/QuestSO", order =1)] //creates menu to make object
 public class QuestSO : ScriptableObject
 {

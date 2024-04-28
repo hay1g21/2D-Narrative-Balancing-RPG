@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Code is modified from https://github.com/kurtkaiser/RPG-Battle-Game-Video/blob/master/Assets/Scripts/AttackScript.cs by kurtkaiser (2020)
+
 public class AttackScript : MonoBehaviour
 {
 

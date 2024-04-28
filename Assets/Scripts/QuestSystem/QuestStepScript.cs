@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class QuestStepScript : MonoBehaviour //inherit
 {
+    //Code is modified from https://github.com/shapedbyrainstudios/quest-system/blob/3-quest-log-implemented/Assets/Scripts/QuestSystem/QuestStep.cs by trevermock (2023)
+
     // Start is called before the first frame update
     private bool finished = false;
     private string questId;

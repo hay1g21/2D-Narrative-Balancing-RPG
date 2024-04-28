@@ -4,6 +4,9 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+
+//Code is modified from https://github.com/shapedbyrainstudios/quest-system/blob/3-quest-log-implemented/Assets/Scripts/UI/QuestLogUI.cs by trevermock (2023)
+
 public class QuestLogUI : MonoBehaviour
 {
     [Header("Components")]

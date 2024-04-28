@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+   
+   Adapted from:
+   "Part 7: Scriptable Items -- Let's Make An Inventory System In Unity!" by Night Run Studio (YouTube, 2023)
+   Video URL: https://www.youtube.com/watch?v=IbybLKqq7PA
+*/
+
+
 [CreateAssetMenu(fileName = "ItemSO", menuName = "ScriptableObjects/ItemSO", order = 1)] //creates menu to make object
 public class ItemSO : ScriptableObject
 {

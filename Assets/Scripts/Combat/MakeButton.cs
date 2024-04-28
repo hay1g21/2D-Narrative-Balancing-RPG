@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+//Code is modified from https://github.com/kurtkaiser/RPG-Battle-Game-Video/blob/master/Assets/Scripts/MakeButton.cs by kurtkaiser (2020)
+
 public class MakeButton : MonoBehaviour
 {
 

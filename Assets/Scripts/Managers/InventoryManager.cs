@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+/*
+   
+   Adapted from:
+   "Part 1: UI Creation and Game Pause -- Let's Make An Inventory System in Unity!" by Night Run Studio (YouTube, 2023)
+   Video URL: https://www.youtube.com/watch?v=LaQp5u0_UYk
+*/
+
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager instance; //static allows access from anywhere in code, even from other scripts

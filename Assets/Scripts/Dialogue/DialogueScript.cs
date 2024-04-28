@@ -4,6 +4,13 @@ using UnityEngine;
 using TMPro;
 
 
+/*
+   
+   Adapted from:
+   "5 Minute DIALOGUE SYSTEM in UNITY Tutorial" by BMo (YouTube, 2021)
+   Video URL: https://www.youtube.com/watch?v=8oTYabhj248
+*/
+
 public class DialogueScript : MonoBehaviour
 {
 

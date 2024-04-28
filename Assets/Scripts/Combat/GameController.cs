@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
 
+    //Code is modified from https://github.com/kurtkaiser/RPG-Battle-Game-Video/blob/master/Assets/Scripts/GameController.cs by kurtkaiser (2020)
+
     // Start is called before the first frame update
 
     public List<FighterStats> fighterStats; //list of fighters

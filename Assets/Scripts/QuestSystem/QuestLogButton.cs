@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.UI;
 
+//Code is modified from https://github.com/shapedbyrainstudios/quest-system/blob/3-quest-log-implemented/Assets/Scripts/UI/QuestLogButton.cs by trevermock (2023)
+
 public class QuestLogButton : MonoBehaviour, ISelectHandler
 {
 

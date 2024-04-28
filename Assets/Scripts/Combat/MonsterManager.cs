@@ -176,7 +176,7 @@ public class MonsterManager : MonoBehaviour
         if (GameManager.instance.balanceLevel <= 1)
         {
             //put all the details into one string
-            finalDiag = new string[] { "Name: " + enemyName + ", HP:" + enemyHealth + ", MP:" + magic + ", Dmg: " + meleedmg + ", Magic Dmg: " + magicrange + ", Defense: " + def + ", Speed: " + speed + ", Exp: " + exp + "Gold: " + gold };
+            finalDiag = new string[] { "Name: " + enemyName + ", HP:" + enemyHealth + ", MP:" + magic + ", Dmg: " + meleedmg + ", Magic Dmg: " + magicrange + ", Defense: " + def + ", Speed: " + speed + ", Exp: " + exp + ", Gold: " + gold };
            
         }
         else
@@ -188,7 +188,7 @@ public class MonsterManager : MonoBehaviour
                 {
                     if (enemyList[i].Equals(enemyName))
                     {
-                        finalDiag = new string[] { descs[i], "Name: " + enemyName + ", HP:" + enemyHealth + ", MP:" + magic + ", Dmg: " + meleedmg + ", Magic Dmg: " + magicrange + ", Defense: " + def + ", Speed: " + speed + ", Exp: " + exp + "Gold: " + gold };
+                        finalDiag = new string[] { descs[i], "Name: " + enemyName + ", HP:" + enemyHealth + ", MP:" + magic + ", Dmg: " + meleedmg + ", Magic Dmg: " + magicrange + ", Defense: " + def + ", Speed: " + speed + ", Exp: " + exp + ", Gold: " + gold };
                         speaker = new string[] {"Pech","Pech"};
                     }
                 }
