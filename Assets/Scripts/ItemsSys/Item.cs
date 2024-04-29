@@ -41,12 +41,18 @@ public class Item : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.instance.gameEvents.onSliderStepChange += changeBalance;
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.gameEvents.onSliderStepChange += changeBalance;
+        }
     }
 
     private void OnDisable()
     {
-        GameManager.instance.gameEvents.onSliderStepChange -= changeBalance;
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.gameEvents.onSliderStepChange += changeBalance;
+        }
     }
 
 
@@ -54,17 +60,21 @@ public class Item : MonoBehaviour
 
     void Start()
     {
-        inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
-        if (quantity > 1)
+        
+        if (GameManager.instance != null)
         {
-            pickupText = new string[] { ("You have found " + quantity.ToString() + " " + itemName + "s") };
+            inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
+            if (quantity > 1)
+            {
+                pickupText = new string[] { ("You have found " + quantity.ToString() + " " + itemName + "s") };
+            }
+            else
+            {
+                pickupText = new string[] { ("You have found a " + itemName) };
+            }
+
+            speakers = new string[] { (" ") };
         }
-        else
-        {
-            pickupText = new string[] { ("You have found a " + itemName) };
-        }
-       
-        speakers = new string[] { (" ") };
     }
     //remember to find explorer path for each sprite for crediting!
     // Update is called once per frame
@@ -79,7 +89,7 @@ public class Item : MonoBehaviour
     public void changeBalance(int val)
     {
         //show up or hide here
-
+        
         if (!balanceLevels.Contains(val))
         {
             transform.Find("Square").gameObject.SetActive(false);
@@ -92,7 +102,8 @@ public class Item : MonoBehaviour
         }
 
         //makes hidden
-        if(val >=1)
+        
+        if (val >=1)
         {
             transform.Find("Square").gameObject.GetComponent<SpriteRenderer>().sprite = hiddenSprite;
         }
@@ -106,7 +117,7 @@ public class Item : MonoBehaviour
 
         //Debug.Log("The value is " + val);
         //Debug.Log("The game manager val is " + GameManager.instance.balanceLevel);
-
+       
         if (automated)
         {
             Transform spawn1 = null;

@@ -47,12 +47,18 @@ public class NPCScript : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.instance.gameEvents.onSliderStepChange += changeBalance;
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.gameEvents.onSliderStepChange += changeBalance;
+        }
     }
 
     private void OnDisable()
     {
-        GameManager.instance.gameEvents.onSliderStepChange -= changeBalance;
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.gameEvents.onSliderStepChange -= changeBalance;
+        }
     }
 
     public bool automated;
@@ -123,24 +129,27 @@ public class NPCScript : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
-        if ((Input.GetButtonDown("Advance") || (GameManager.instance.balanceLevel >= 6 && !firstTalk)) &&canTalk  && !DialogueManager.instance.active && balanceLevels.Contains(GameManager.instance.balanceLevel))
+        if (GameManager.instance != null)
         {
-            GameManager.instance.gameEvents.npcTalkedTo(NPCname);
-            firstTalk = true;
-            DialogueManager.instance.active = true;
-            //start dialgoue
-            //Debug.Log("Can speak");
-            //start dialogue
-            DialogueManager.instance.setText(dialogue, speaker, 0.05f);
-            DialogueManager.instance.dialogueSequence();
-            //Debug.Log("hello");
-            if (givesItem)
+            if ((Input.GetButtonDown("Advance") || (GameManager.instance.balanceLevel >= 6 && !firstTalk)) && canTalk && !DialogueManager.instance.active && balanceLevels.Contains(GameManager.instance.balanceLevel))
             {
-                //give the item then stop
-                InventoryManager.instance.AddItem(itemName, quantity, itemSprite, itemDesc);
-                givesItem = false;
+                GameManager.instance.gameEvents.npcTalkedTo(NPCname);
+                firstTalk = true;
+                DialogueManager.instance.active = true;
+                //start dialgoue
+                //Debug.Log("Can speak");
+                //start dialogue
+                DialogueManager.instance.setText(dialogue, speaker, 0.05f);
+                DialogueManager.instance.dialogueSequence();
+                //Debug.Log("hello");
+                if (givesItem)
+                {
+                    //give the item then stop
+                    InventoryManager.instance.AddItem(itemName, quantity, itemSprite, itemDesc);
+                    givesItem = false;
+                }
+
             }
-            
         }
 
     }

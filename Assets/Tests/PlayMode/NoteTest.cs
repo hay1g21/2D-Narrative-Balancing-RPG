@@ -8,7 +8,7 @@ public class NoteTest
 {
    
     [UnityTest]
-    public IEnumerator MoveNote()
+    public IEnumerator ChangeNote()
     {
         var gameObject = new GameObject();
         var note = gameObject.AddComponent<NoteScript>();
