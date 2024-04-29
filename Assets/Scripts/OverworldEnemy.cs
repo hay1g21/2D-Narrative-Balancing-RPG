@@ -16,12 +16,18 @@ public class OverworldEnemy : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.instance.gameEvents.onSliderStepChange += changeBalance;
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.gameEvents.onSliderStepChange += changeBalance;
+        }
     }
 
     private void OnDisable()
     {
-        GameManager.instance.gameEvents.onSliderStepChange -= changeBalance;
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.gameEvents.onSliderStepChange -= changeBalance;
+        }
     }
 
     public int enemyHealth;
